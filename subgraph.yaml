@@ -1,0 +1,41 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: RegistryHub
+    network: bsc
+    source:
+      address: "0xCf1f551a9eE0270275416a73ae8Af7180F4FFbDf"
+      abi: RegistryHub
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NewAsset
+        - OwnershipTransferred
+        - RemoveWhiteList
+        - SetAssetHandlers
+        - SetMintable
+        - SetNUTStaking
+        - SetWhiteList
+      abis:
+        - name: RegistryHub
+          file: ./abis/RegistryHub.json
+      eventHandlers:
+        - event: NewAsset(indexed address,indexed bytes32)
+          handler: handleNewAsset
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: RemoveWhiteList(address)
+          handler: handleRemoveWhiteList
+        - event: SetAssetHandlers(address,address,address,address)
+          handler: handleSetAssetHandlers
+        - event: SetMintable(bytes32)
+          handler: handleSetMintable
+        - event: SetNUTStaking(bytes32,uint256)
+          handler: handleSetNUTStaking
+        - event: SetWhiteList(address)
+          handler: handleSetWhiteList
+      file: ./src/mapping.ts
