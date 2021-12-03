@@ -1,41 +1,79 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: RegistryHub
-    network: bsc
+    name: Committee
+    network: goerli
     source:
-      address: "0xCf1f551a9eE0270275416a73ae8Af7180F4FFbDf"
-      abi: RegistryHub
+      address: "0xa90f2c24fd9bb1934e98BBE9A9Db8CBd57c867f0"
+      abi: Committee
+      startBlock: 5955962
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - NewAsset
-        - OwnershipTransferred
-        - RemoveWhiteList
-        - SetAssetHandlers
-        - SetMintable
-        - SetNUTStaking
-        - SetWhiteList
+        - Walnut
+        - FeeHistory
+        - AppropriationHistory
       abis:
-        - name: RegistryHub
-          file: ./abis/RegistryHub.json
+        - name: Committee
+          file: ./abis/Committee.json
       eventHandlers:
-        - event: NewAsset(indexed address,indexed bytes32)
-          handler: handleNewAsset
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
-        - event: RemoveWhiteList(address)
-          handler: handleRemoveWhiteList
-        - event: SetAssetHandlers(address,address,address,address)
-          handler: handleSetAssetHandlers
-        - event: SetMintable(bytes32)
-          handler: handleSetMintable
-        - event: SetNUTStaking(bytes32,uint256)
-          handler: handleSetNUTStaking
-        - event: SetWhiteList(address)
-          handler: handleSetWhiteList
-      file: ./src/mapping.ts
+        - event: "NewRevenue(string,indexed address,indexed address,indexed address,uint256)"
+          handler: handleNewRevenue
+        - event: "NewAppropriation(address,uint256)"
+          handler: handleNewAppropriation
+      file: ./src/mappingCommittee.ts
+  - kind: ethereum/contract
+    name: CommunityFactory
+    network: goerli
+    source:
+      address: "0x540E54d4B86EAD5AC53c1C84a5c6431dF34a8510"
+      abi: CommunityFactory
+      startBlock: 5955962
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Community
+        - CommunityManageHistory
+      abis:
+        - name: CommunityFactory
+          file: ./abis/CommunityFactory.json
+      eventHandlers:
+        - event: "CommunityCreated(indexed address,indexed address,address)"
+          handler: handleCommunityCreated
+      file: ./src/mappingCommunityFactory.ts
+  - kind: ethereum/contract
+    name: Community
+    network: goerli
+    source:
+      abi: Community
+      startBlock: 5955962
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Community
+        - CommunityManageHistory
+      abis:
+        - name: Community
+          file: ./abis/Community.json
+      eventHandlers:
+        - event: "AdminSetFeeRatio(uint16)"
+          handler: handleAdminSetFeeRatio
+        - event: "PoolUpdated(indexed address,uint256)"
+          handler: handlePoolUpdated
+        - event: "AdminWithdrawReward(indexed address,uint256)"
+          handler: handleAdminWithdrawReward
+        - event: "AdminAddPool(indexed address,string,indexed address)"
+          handler: handleAdminAddPool
+        - event: "AdminClosePool(indexed address)"
+          handler: handleAdminClosePool
+        - event: "WithdrawRewards(indexed address,uint256)"
+          handler: handleWithdrawRewards
+      file: ./src/mappingCommunity.ts
