@@ -1,7 +1,7 @@
 import { Community, CommunityManageHistory, User, UserStakingHistory, Pool } from '../generated/schema'
 import { AdminSetFeeRatio, PoolUpdated, AdminClosePool, WithdrawRewards } from '../generated/templates/CommunityTemplate/Community'
 import { ethereum, BigInt } from "@graphprotocol/graph-ts";
-import { contracts } from "./contracts"
+import { SPStakingFactory, ERC20StakingFactory } from "./contracts"
 
 export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
     let community = getCommunity(event);
@@ -62,9 +62,9 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
         let pool = Pool.load(event.params.pool[0].toHex());
         if (pool){
             stakingHistory.poolFactory = pool.poolFactory;
-            if (pool.poolFactory.toHex().toLowerCase() == contracts.SPStakingFactory.toLowerCase()) {
+            if (pool.poolFactory == SPStakingFactory) {
                 stakingHistory.chainId == pool.chainId;
-            }else if (pool.poolFactory.toHex().toLowerCase() == contracts.ERC20StakingFactory.toLowerCase()) {
+            }else if (pool.poolFactory == ERC20StakingFactory) {
 
             }
         }

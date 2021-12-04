@@ -1,21 +1,23 @@
-# Walnut 后台或者需要公布到相关页面的数据
+# Walnut summary data
 type Walnut @entity {
     id: ID!
-    # walnut网络总TVL
+    # walnut TVL
     tvl: BigInt!
-    # 所有在Walnut网络中进行质押的资产列表
+    # all staked assets
     stakeAssets: [Bytes!]!
-    # 所有Walnut网络中社区资产
+    # all community tokens
     cTokens: [Bytes!]!
-    # 国库总收入
+    # total revenue
     revenue: BigInt!
-    # 国库收入历史记录
+    # fee history
     feeHistory: [FeeHistory!]!
-    # 国库支出历史记录
+    # propriation history
     propriationHistory: [AppropriationHistory!]!
-    # 所有社区列表
+    # all created communities
     communities: [Community!]!
+    # all users counts
     totalUsers: Int!
+    # all pools counts
     totalPools: Int!
 }
 
@@ -37,30 +39,30 @@ type AppropriationHistory @entity {
     tx: Bytes!
 }
 
-# 社区dashboard页面需要体现出Community对象的各个字段信息
+# Community info
 type Community @entity {
     id: ID!
     createdAt: BigInt!
-    # 社区管理员
+    # owner of community
     owner: User!
-    # 社区主设置的抽成比例
+    # community dao fund
     feeRatio: Int!
-    # cToken地址
+    # cToken address
     cToken: Bytes!
-    # 总共已经分发给池子的cToken
+    # total distributed ctoken amount
     distributedCToken: BigInt!
-    # 作为手续费收取的cToken
+    # total dao fund
     revenue: BigInt!
-    # 社区总的TVL
-    tvl: BigInt
-    # 该社区所有的用户
+    # all members
     users: [User!]!
-    # 所有池子信息
+    # all pool info
     pools: [Pool!]!@derivedFrom(field: "community")
+    # all community admin operate history
     manageHistory: [CommunityManageHistory!]!
 }
 
 enum CommunityManageType {
+  CREATE
   SETFEE
   DEPOSIT
   WITHDRAW
@@ -71,15 +73,13 @@ enum CommunityManageType {
 
 type CommunityManageHistory @entity {
     id: ID!
-    # 类型
     type: CommunityManageType!
-    # 社区
     community: Bytes!
-    # 充值或提现cToken的金额[Optional, 只有DEPOSIT、WITHDRAW cToken时才会存在]
+    # c token amount: optional only admin deposit or withdraw method have this field
     amount: BigInt
-    # 操作的Pool[Optional, 只有ADDPOOL，CLOSEPOOL，OPENPOOL时才会存在]
+    # operated pool: add pool, close pool
     pool: Pool
-    # 交易hash
+    # transaction hash
     tx: Bytes!
     timestamp: BigInt!
 }
@@ -87,23 +87,22 @@ type CommunityManageHistory @entity {
 type Pool @entity {
     id: ID!
     createdAt: BigInt!
-    # 当前状态
     status: PoolStatus!
     # pool name
     name: String!
-    # 矿池的工厂合约
+    # pool factory contract
     poolFactory: Bytes!
-    # 所属community
+    # belong to community
     community: Community!
-    # 对应质押资产  erc20 池子就是token地址，代理的就是代理人账号
+    # staked asset  address ，delegatee
     asset: Bytes!
-    # 外链id steem：1  hive：2
+    # foreign chain id steem：1  hive：2
     chainId: Int
-    # 质押资产TVL(Optional, 无价格的资产无法获取TVL)
+    # optional
     tvl: BigInt
-    # 当前质押用户列表
+    # all staker list
     stakers: [User!]!
-    # 所有用户在当前池子的质押操作历史记录
+    # all operation of this pool
     stakingHistory: [UserStakingHistory!]!
 }
 
@@ -114,19 +113,11 @@ enum PoolStatus {
 
 type User @entity {
     id: ID!
-    # 用户第一次使用Nutbox时间
     createdAt: BigInt!
-    # 用户BSC地址
     address: Bytes!
-    # 用户所在community列表
     inCommunities: [Community!]!@derivedFrom(field: "users")
-    # 用户所参与的所有pool
     inPools: [Pool!]!@derivedFrom(field: "stakers")
-    # 用户所拥有的全部cToken地址列表，以及金额（金额可以前端实时获取）
-    cTokens: [Bytes!]!
-    # 用户持有的NUT总金额
-    balances: BigInt!
-    # 用户Staking操作记录
+    # all user's operate history
     stakingHistory: [UserStakingHistory!]!
 }
 
@@ -140,19 +131,19 @@ enum UserStakingHistoryType {
 type UserStakingHistory @entity {
     id: ID!
     type: UserStakingHistoryType!
-    # 操作对应的community
     community: Community!
-    #矿池的类型 为空就是收取了多个矿池的奖励
+    # pool factory contract
     poolFactory: Bytes
-    # 操作对应的pool, 如果为空就是收取了多个矿池的奖励
+    # pool: withdraw all pools if this field is null
     pool: Pool
-    # 外链id
+    # foreign chain id: steem:1, hive:2
     chainId: Int
-    # 如果是DEPOSIT/WITHDRAW，对应为staking资产地址，HARVEST为cToken地址
-    # 如果是代理的操作，这里就是代理的账号
+    # DEPOSIT/WITHDRAW: stake asset
+    # HARVEST/HARVESTALL: community token
+    # if this is from steem/hive delegate, it will be delegatee
     asset: Bytes!
-    # 操作对应的资产金额
+    # operated asset amount
     amount: BigInt!
-    # 对应操作交易hash
+    # transaction hash
     tx: Bytes!
 }

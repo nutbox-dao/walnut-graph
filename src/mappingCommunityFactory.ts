@@ -1,5 +1,5 @@
 import { CommunityTemplate } from '../generated/templates'
-import { Community, User } from '../generated/schema'
+import { Community, User, CommunityManageHistory } from '../generated/schema'
 import { CommunityCreated } from '../generated/CommunityFactory/CommunityFactory'
 import { getWalnut } from './mappingCommittee'
 
@@ -15,9 +15,20 @@ export function handleCommunityCreated(event: CommunityCreated): void {
         user = new User(userId);
         user.createdAt = event.block.timestamp;
         user.address = event.params.creator;
-        user.save();
         walnut.totalUsers += 1;
     }
+    // add community create op to community
+    let opId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toHexString();
+    let communityop = new CommunityManageHistory(opId);
+    communityop.type = "CREATE";
+    communityop.tx = event.transaction.hash;
+    communityop.timestamp = event.block.timestamp;
+    communityop.community = event.params.community;
+
+    let ops = community.manageHistory;
+    ops.push(opId);
+    community.manageHistory = ops;
+
     community.owner = userId;
     community.cToken = event.params.communityToken;
     let communities = walnut.communities
@@ -28,7 +39,8 @@ export function handleCommunityCreated(event: CommunityCreated): void {
         ctokens.push(event.params.communityToken);
         walnut.cTokens = ctokens;
     }
-    
+    communityop.save();
+    user.save();
     community.save();
     walnut.save();
 }

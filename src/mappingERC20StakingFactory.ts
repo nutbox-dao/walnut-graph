@@ -2,8 +2,8 @@ import { Pool, Community, CommunityManageHistory } from '../generated/schema'
 import { ERC20StakingCreated } from '../generated/ERC20StakingFactory/ERC20StakingFactory'
 import { ERC20StakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
-import { contracts } from "./contracts"
-import { BigInt, ByteArray } from '@graphprotocol/graph-ts';
+import { ERC20StakingFactory } from "./contracts"
+import { BigInt } from '@graphprotocol/graph-ts';
 
 // event ERC20StakingCreated(
 //     address indexed pool,
@@ -13,33 +13,35 @@ import { BigInt, ByteArray } from '@graphprotocol/graph-ts';
 // );
 export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
     let walnut = getWalnut();
-    ERC20StakingTemplate.create(event.params.pool);
-    let poolId = event.params.pool.toHex();
-    let pool = new Pool(poolId);
     let community = Community.load(event.params.community.toHex());
     if (!community){
         return;
     }
-    // add pool to community
+    // create new pool entity
+    ERC20StakingTemplate.create(event.params.pool);
+    let poolId = event.params.pool.toHex();
+    let pool = new Pool(poolId);
     pool.createdAt = event.block.timestamp;
     pool.status = 'OPENED';
     pool.name = event.params.name;
-    pool.poolFactory = ByteArray.fromUTF8(contracts.ERC20StakingFactory);
+    pool.poolFactory = ERC20StakingFactory;
     pool.community = event.params.community.toHex();
     pool.asset = event.params.erc20Token;
     pool.tvl = BigInt.zero();
     pool.save();
+    // add pool to community
     let pools = community.pools;
     pools.push(pool.id);
     community.pools = pools;
 
-    // add community add pool operator history
+    // add community and pool operator history
     let historyId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
     let communityHistory = new CommunityManageHistory(historyId);
     communityHistory.type = "ADDPOOL";
     communityHistory.pool = pool.id;
     communityHistory.tx = event.transaction.hash;
     communityHistory.timestamp = event.block.timestamp;
+    communityHistory.save();
     
     let historys = community.manageHistory;
     historys.push(historyId);
