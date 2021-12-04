@@ -38,31 +38,6 @@
         "internalType": "address",
         "name": "pool",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "factory",
-        "type": "address"
-      }
-    ],
-    "name": "AdminAddPool",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "pool",
-        "type": "address"
       }
     ],
     "name": "AdminClosePool",
@@ -106,25 +81,6 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "AdminWithdrawReward",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
         "name": "previousOwner",
         "type": "address"
       },
@@ -160,6 +116,12 @@
   {
     "anonymous": false,
     "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "pool",
+        "type": "address[]"
+      },
       {
         "indexed": true,
         "internalType": "address",

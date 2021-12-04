@@ -4,17 +4,17 @@ type Walnut @entity {
     # walnut网络总TVL
     tvl: BigInt!
     # 所有在Walnut网络中进行质押的资产列表
-    stakAssets: [Bytes!]
+    stakeAssets: [Bytes!]!
     # 所有Walnut网络中社区资产
-    cTokens: [Bytes!]
+    cTokens: [Bytes!]!
     # 国库总收入
     revenue: BigInt!
     # 国库收入历史记录
-    feeHistory: [FeeHistory!]
+    feeHistory: [FeeHistory!]!
     # 国库支出历史记录
-    propriationHistory: [AppropriationHistory!]
+    propriationHistory: [AppropriationHistory!]!
     # 所有社区列表
-    communities: [Community!]
+    communities: [Community!]!
     totalUsers: Int!
     totalPools: Int!
 }
@@ -23,9 +23,9 @@ type FeeHistory @entity {
     id: ID!
     timestamp: BigInt!
     feeType: String!
-    community: Bytes!
-    pool: Bytes!
-    payer: Bytes!
+    community: Community!
+    pool: Pool!
+    payer: User!
     amount: BigInt!
 }
 
@@ -42,7 +42,7 @@ type Community @entity {
     id: ID!
     createdAt: BigInt!
     # 社区管理员
-    owner: Bytes!
+    owner: User!
     # 社区主设置的抽成比例
     feeRatio: Int!
     # cToken地址
@@ -54,10 +54,10 @@ type Community @entity {
     # 社区总的TVL
     tvl: BigInt
     # 该社区所有的用户
-    users: [User!]
+    users: [User!]!
     # 所有池子信息
-    pools: [Pool!]
-    manageHistory: [CommunityManageHistory!]
+    pools: [Pool!]!@derivedFrom(field: "community")
+    manageHistory: [CommunityManageHistory!]!
 }
 
 enum CommunityManageType {
@@ -73,10 +73,12 @@ type CommunityManageHistory @entity {
     id: ID!
     # 类型
     type: CommunityManageType!
+    # 社区
+    community: Bytes!
     # 充值或提现cToken的金额[Optional, 只有DEPOSIT、WITHDRAW cToken时才会存在]
     amount: BigInt
     # 操作的Pool[Optional, 只有ADDPOOL，CLOSEPOOL，OPENPOOL时才会存在]
-    pool: Bytes
+    pool: Pool
     # 交易hash
     tx: Bytes!
     timestamp: BigInt!
@@ -87,16 +89,22 @@ type Pool @entity {
     createdAt: BigInt!
     # 当前状态
     status: PoolStatus!
+    # pool name
+    name: String!
+    # 矿池的工厂合约
+    poolFactory: Bytes!
     # 所属community
     community: Community!
-    # 对应质押资产
+    # 对应质押资产  erc20 池子就是token地址，代理的就是代理人账号
     asset: Bytes!
+    # 外链id steem：1  hive：2
+    chainId: Int
     # 质押资产TVL(Optional, 无价格的资产无法获取TVL)
     tvl: BigInt
     # 当前质押用户列表
-    stakers: [User!]
+    stakers: [User!]!
     # 所有用户在当前池子的质押操作历史记录
-    stakingHistory: [UserStakingHistory!]
+    stakingHistory: [UserStakingHistory!]!
 }
 
 enum PoolStatus {
@@ -111,35 +119,37 @@ type User @entity {
     # 用户BSC地址
     address: Bytes!
     # 用户所在community列表
-    inCommunities: [Community!]
+    inCommunities: [Community!]!@derivedFrom(field: "users")
     # 用户所参与的所有pool
-    inPools: [Pool!]
+    inPools: [Pool!]!@derivedFrom(field: "stakers")
     # 用户所拥有的全部cToken地址列表，以及金额（金额可以前端实时获取）
-    cTokens: [Bytes!]
+    cTokens: [Bytes!]!
     # 用户持有的NUT总金额
     balances: BigInt!
     # 用户Staking操作记录
-    stakingHistory: [UserStakingHistory!]
+    stakingHistory: [UserStakingHistory!]!
 }
 
 enum UserStakingHistoryType {
     DEPOSIT
     WITHDRAW
     HARVEST
+    HARVESTALL
 }
 
 type UserStakingHistory @entity {
     id: ID!
     type: UserStakingHistoryType!
     # 操作对应的community
-    community: Bytes!
-    # 操作对应的pool
-    pool: Bytes!
-    # 矿池类型
-    poolFactory: Bytes!
+    community: Community!
+    #矿池的类型 为空就是收取了多个矿池的奖励
+    poolFactory: Bytes
+    # 操作对应的pool, 如果为空就是收取了多个矿池的奖励
+    pool: Pool
     # 外链id
     chainId: Int
     # 如果是DEPOSIT/WITHDRAW，对应为staking资产地址，HARVEST为cToken地址
+    # 如果是代理的操作，这里就是代理的账号
     asset: Bytes!
     # 操作对应的资产金额
     amount: BigInt!

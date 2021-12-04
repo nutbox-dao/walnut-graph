@@ -7,14 +7,13 @@ export function handleNewRevenue(event: NewRevenue): void {
     let feeHistory = new FeeHistory(feeId);
     feeHistory.timestamp = event.block.timestamp;
     feeHistory.feeType = event.params.feeType;
-    feeHistory.payer = event.params.who;
+    feeHistory.payer = event.params.who.toHex();
     feeHistory.amount = event.params.amount;
-    feeHistory.community = event.params.community;
-    feeHistory.pool = event.params.pool;
-    if (!walnut.feeHistory){
-        walnut.feeHistory = new Array<string>();
-    }
-    walnut.feeHistory.push(feeId);
+    feeHistory.community = event.params.community.toHex();
+    feeHistory.pool = event.params.pool.toHex();
+    let historys = walnut.feeHistory;
+    historys.push(feeId);
+    walnut.feeHistory = historys;
     walnut.revenue = walnut.revenue.plus(event.params.amount);
     feeHistory.save();
     walnut.save();
@@ -28,10 +27,9 @@ export function handleNewAppropriation(event: NewAppropriation): void {
     appropriationHistory.recipient = event.params.recipient;
     appropriationHistory.amount = event.params.amount;
     appropriationHistory.tx = event.transaction.hash;
-    if (!walnut.propriationHistory) {
-        walnut.propriationHistory = new Array<string>();
-    }
-    walnut.propriationHistory.push(appropriationId);
+    let historys = walnut.propriationHistory;
+    historys.push(appropriationId);
+    walnut.propriationHistory = historys;
     appropriationHistory.save();
     walnut.save();
 }
