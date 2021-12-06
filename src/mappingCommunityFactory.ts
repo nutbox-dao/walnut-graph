@@ -41,6 +41,7 @@ export function handleCommunityCreated(event: CommunityCreated): void {
     let communities = walnut.communities
     communities.push(communityId);
     walnut.communities = communities;
+    walnut.totalCommunities += 1;
     if (!walnut.cTokens.includes(event.params.communityToken)){
         let ctokens = walnut.cTokens;
         ctokens.push(event.params.communityToken);
