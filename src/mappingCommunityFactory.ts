@@ -2,11 +2,18 @@ import { CommunityTemplate } from '../generated/templates'
 import { Community, User, CommunityManageHistory } from '../generated/schema'
 import { CommunityCreated } from '../generated/CommunityFactory/CommunityFactory'
 import { getWalnut } from './mappingCommittee'
+import { log } from '@graphprotocol/graph-ts'
+
 
 export function handleCommunityCreated(event: CommunityCreated): void {
     let walnut = getWalnut();
     let communityId:string = event.params.community.toHexString();
     CommunityTemplate.create(event.params.community);
+    log.info(`[Community Factory] Create new community creator:{} community:{} c-token:{}`, [
+        event.params.creator.toHex(),
+        event.params.community.toHex(),
+        event.params.communityToken.toHex()
+    ]);
     let community = new Community(communityId);
     community.createdAt = event.block.timestamp;
     let userId = event.params.creator.toHex();

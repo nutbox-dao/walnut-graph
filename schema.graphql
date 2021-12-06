@@ -56,7 +56,9 @@ type Community @entity {
     # all members
     users: [User!]!
     # all pool info
-    pools: [Pool!]!@derivedFrom(field: "community")
+    pools: [Pool!]!
+    # actived pool count
+    activedPoolCount: Int!
     # all community admin operate history
     manageHistory: [CommunityManageHistory!]!
 }
@@ -94,6 +96,8 @@ type Pool @entity {
     poolFactory: Bytes!
     # belong to community
     community: Community!
+    # pool ratio
+    ratio: Int!
     # staked asset  address ，delegatee
     asset: Bytes!
     # foreign chain id steem：1  hive：2
@@ -115,8 +119,8 @@ type User @entity {
     id: ID!
     createdAt: BigInt!
     address: Bytes!
-    inCommunities: [Community!]!@derivedFrom(field: "users")
-    inPools: [Pool!]!@derivedFrom(field: "stakers")
+    inCommunities: [Community!]!
+    inPools: [Pool!]!
     # all user's operate history
     stakingHistory: [UserStakingHistory!]!
 }
@@ -144,6 +148,8 @@ type UserStakingHistory @entity {
     asset: Bytes!
     # operated asset amount
     amount: BigInt!
+    # opertate time
+    timestamp: BigInt!
     # transaction hash
     tx: Bytes!
 }

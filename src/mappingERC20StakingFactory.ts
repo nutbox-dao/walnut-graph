@@ -3,7 +3,7 @@ import { ERC20StakingCreated } from '../generated/ERC20StakingFactory/ERC20Staki
 import { ERC20StakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { ERC20StakingFactory } from "./contracts"
-import { BigInt } from '@graphprotocol/graph-ts';
+import { BigInt, log } from '@graphprotocol/graph-ts';
 
 // event ERC20StakingCreated(
 //     address indexed pool,
@@ -17,10 +17,19 @@ export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
     if (!community){
         return;
     }
-    // create new pool entity
+    // create new pool contract
+    log.info('[ERC20StakingFactory]: Create new pool:{} community:{} name:{} token:{} ', [
+        event.params.pool.toHex(),
+        event.params.community.toHex(),
+        event.params.name.toString(),
+        event.params.erc20Token.toHex()
+    ])
     ERC20StakingTemplate.create(event.params.pool);
     let poolId = event.params.pool.toHex();
-    let pool = new Pool(poolId);
+    let pool = Pool.load(poolId);
+    if (!pool) {
+        pool = new Pool(poolId);
+    }
     pool.createdAt = event.block.timestamp;
     pool.status = 'OPENED';
     pool.name = event.params.name;
@@ -29,6 +38,7 @@ export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
     pool.asset = event.params.erc20Token;
     pool.tvl = BigInt.zero();
     pool.save();
+    
     // add pool to community
     let pools = community.pools;
     pools.push(pool.id);
@@ -56,5 +66,4 @@ export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
     }
     walnut.totalPools += 1;
     walnut.save();
-
 }

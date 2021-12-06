@@ -1,5 +1,6 @@
 import { NewRevenue, NewAppropriation } from '../generated/Committee/Committee'
 import { Walnut, FeeHistory, AppropriationHistory } from '../generated/schema'
+import { Committee } from './contracts';
 
 export function handleNewRevenue(event: NewRevenue): void {
     let walnut = getWalnut();
@@ -35,9 +36,9 @@ export function handleNewAppropriation(event: NewAppropriation): void {
 }
 
 export function getWalnut(): Walnut {
-    let walnut = Walnut.load('0x00');
+    let walnut = Walnut.load(Committee.toHex());
     if (!walnut) {
-        walnut = new Walnut("0x00");
+        walnut = new Walnut(Committee.toHex());
     }
     return walnut;
 }

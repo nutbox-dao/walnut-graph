@@ -1,6 +1,6 @@
 import { Community, CommunityManageHistory, User, UserStakingHistory, Pool } from '../generated/schema'
-import { AdminSetFeeRatio, PoolUpdated, AdminClosePool, WithdrawRewards } from '../generated/templates/CommunityTemplate/Community'
-import { ethereum, BigInt } from "@graphprotocol/graph-ts";
+import { AdminSetFeeRatio, PoolUpdated, AdminClosePool, WithdrawRewards, AdminSetPoolRatio } from '../generated/templates/CommunityTemplate/Community'
+import { ethereum, BigInt, log } from "@graphprotocol/graph-ts";
 import { SPStakingFactory, ERC20StakingFactory } from "./contracts"
 
 export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
@@ -10,12 +10,38 @@ export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
     }
 
     let communityManageHistory = createAdminOp(event, "SETFEE", BigInt.zero());
+    log.info('[Community]: Admin set fee ratio to:{}', [event.params.ratio.toString()]);
 
     community.feeRatio = event.params.ratio;
     let historys = community.manageHistory;
     historys.push(communityManageHistory.id);
     community.manageHistory = historys;
 
+    community.save();
+}
+
+export function handleAdminSetPoolRatio(event: AdminSetPoolRatio): void {
+    let pools = event.params.pools;
+    let ratios = event.params.ratios;
+    let community = getCommunity(event);
+    if (!community){
+        return;
+    }
+    community.activedPoolCount = event.params.pools.length;
+    for (let i = 0; i < pools.length; i++) {
+        let pool = Pool.load(pools[i].toHex());
+        if (!pool){
+            pool = new Pool(pools[i].toHex());
+            log.info('[Community] Create new pool:{} ratio:{}', [pools[i].toHex(), ratios[i].toString()]);
+        }
+        pool.ratio = ratios[i];
+        pool.save();
+    }
+    // add set ratio operate
+    let op = createAdminOp(event, "SETRATIO", BigInt.zero());
+    let historys = community.manageHistory;
+    historys.push(op.id);
+    community.manageHistory = historys;
     community.save();
 }
 
@@ -75,6 +101,7 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
     stakingHistory.asset = community.cToken;
     stakingHistory.amount = event.params.amount;
     stakingHistory.tx = event.transaction.hash;
+    stakingHistory.timestamp = event.block.timestamp;
     let historys = user.stakingHistory;
     historys.push(stakingId);
     user.stakingHistory = historys;
