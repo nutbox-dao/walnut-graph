@@ -41,6 +41,7 @@ export function handleCommunityCreated(event: CommunityCreated): void {
     let ops = community.manageHistory;
     ops.push(opId);
     community.manageHistory = ops;
+    community.operateCount++;
 
     community.owner = userId;
     community.cToken = event.params.communityToken;

@@ -34,7 +34,6 @@ export function handleUpdateStaking(event: UpdateStaking): void {
         comUsers.push(userId);
         community.users = comUsers;
         community.usersCount++;
-        community.save();
 
         let poolUsers = pool.stakers;
         poolUsers.push(userId);
@@ -73,7 +72,9 @@ export function handleUpdateStaking(event: UpdateStaking): void {
     let historys = user.stakingHistory;
     historys.push(opId);
     user.stakingHistory = historys;
-
+    community.operateCount++;
+ 
+    community.save();
     user.save();
     stakingHistory.save();
 }

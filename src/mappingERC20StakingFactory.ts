@@ -57,6 +57,7 @@ export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
     let historys = community.manageHistory;
     historys.push(historyId);
     community.manageHistory = historys;
+    community.operateCount++;
     community.save();
 
     // add new stake asset

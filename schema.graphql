@@ -67,6 +67,8 @@ type Community @entity {
     activedPoolCount: Int!
     # all community admin operate history
     manageHistory: [CommunityManageHistory!]!
+    # all operate count include manage history and user staking history
+    operateCount: Int!
 }
 
 enum CommunityManageType {

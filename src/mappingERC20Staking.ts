@@ -27,7 +27,6 @@ export function handleDeposited(event: Deposited): void {
         comUsers.push(userId);
         community.usersCount += 1;
         community.users = comUsers;
-        community.save();
 
         let poolUsers = pool.stakers;
         poolUsers.push(userId);
@@ -60,7 +59,8 @@ export function handleDeposited(event: Deposited): void {
     let historys = user.stakingHistory;
     historys.push(opId);
     user.stakingHistory = historys;
-
+    community.operateCount++;
+    community.save();
     user.save();
     stakingHistory.save();
 }
@@ -98,6 +98,8 @@ export function handleWithdrawn(event: Withdrawn): void {
     let historys = user.stakingHistory;
     historys.push(opId);
     user.stakingHistory = historys;
+    community.operateCount++;
+    community.save();
 
     user.save();
     stakingHistory.save();

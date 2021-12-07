@@ -59,6 +59,7 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     let historys = community.manageHistory;
     historys.push(historyId);
     community.manageHistory = historys;
+    community.operateCount++;
     community.save();
 
     walnut.totalPools += 1;

@@ -16,6 +16,7 @@ export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
     let historys = community.manageHistory;
     historys.push(communityManageHistory.id);
     community.manageHistory = historys;
+    community.operateCount++;
 
     community.save();
 }
@@ -42,6 +43,7 @@ export function handleAdminSetPoolRatio(event: AdminSetPoolRatio): void {
     let historys = community.manageHistory;
     historys.push(op.id);
     community.manageHistory = historys;
+    community.operateCount++;
     community.save();
 }
 
@@ -64,6 +66,7 @@ export function handleAdminClosePool(event: AdminClosePool): void {
     let historys = community.manageHistory;
     historys.push(communityManageHistory.id);
     community.manageHistory = historys;
+    community.operateCount++;
     community.save();
 }
 
@@ -106,6 +109,7 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
     let historys = user.stakingHistory;
     historys.push(stakingId);
     user.stakingHistory = historys;
+    community.operateCount++;
     community.distributedCToken = community.distributedCToken.plus(event.params.amount);
     stakingHistory.save();
     user.save();
