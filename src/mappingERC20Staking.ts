@@ -49,6 +49,7 @@ export function handleDeposited(event: Deposited): void {
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let stakingHistory = new UserStakingHistory(opId);
     stakingHistory.community = communityId;
+    stakingHistory.user =  event.params.who;
     stakingHistory.type = 'DEPOSIT'
     stakingHistory.pool = event.address.toHex();
     stakingHistory.poolFactory = pool.poolFactory;
@@ -85,6 +86,7 @@ export function handleWithdrawn(event: Withdrawn): void {
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let stakingHistory = new UserStakingHistory(opId);
     stakingHistory.community = communityId;
+    stakingHistory.user =  event.params.who;
     stakingHistory.type = 'WITHDRAW'
     stakingHistory.pool = event.address.toHex();
     stakingHistory.poolFactory = pool.poolFactory;

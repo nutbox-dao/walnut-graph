@@ -61,6 +61,7 @@ export function handleUpdateStaking(event: UpdateStaking): void {
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let stakingHistory = new UserStakingHistory(opId);
     stakingHistory.community = communityId;
+    stakingHistory.user =  event.params.who;
     stakingHistory.type = isDeposit ? 'DEPOSIT' : "WITHDRAW";
     stakingHistory.pool = event.address.toHex();
     stakingHistory.poolFactory = pool.poolFactory;

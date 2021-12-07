@@ -146,6 +146,8 @@ type UserStakingHistory @entity {
     poolFactory: Bytes
     # pool: withdraw all pools if this field is null
     pool: Pool
+    # user address
+    user: Bytes!
     # foreign chain id: steem:1, hive:2
     chainId: Int
     # DEPOSIT/WITHDRAW: stake asset

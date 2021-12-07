@@ -24,6 +24,12 @@ export function handleCommunityCreated(event: CommunityCreated): void {
         user.address = event.params.creator;
         walnut.totalUsers += 1;
     }
+
+    // add community to user's community list
+    let inCommunities = user.inCommunities;
+    inCommunities.push(communityId);
+    user.inCommunities = inCommunities;
+
     // add community create op to community
     let opId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toHexString();
     let communityop = new CommunityManageHistory(opId);

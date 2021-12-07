@@ -97,6 +97,7 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
     }else{
         stakingHistory.type = "HARVESTALL";
     }
+    stakingHistory.user = event.params.who;
     stakingHistory.chainId = 0;
     stakingHistory.asset = community.cToken;
     stakingHistory.amount = event.params.amount;
