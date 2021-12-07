@@ -66,32 +66,9 @@ type Community @entity {
     # actived pool count
     activedPoolCount: Int!
     # all community admin operate history
-    manageHistory: [CommunityManageHistory!]!
-    # all operate count include manage history and user staking history
-    operateCount: Int!
-}
-
-enum CommunityManageType {
-  CREATE
-  SETFEE
-  DEPOSIT
-  WITHDRAW
-  ADDPOOL
-  CLOSEPOOL
-  SETRATIO
-}
-
-type CommunityManageHistory @entity {
-    id: ID!
-    type: CommunityManageType!
-    community: Bytes!
-    # c token amount: optional only admin deposit or withdraw method have this field
-    amount: BigInt
-    # operated pool: add pool, close pool
-    pool: Pool
-    # transaction hash
-    tx: Bytes!
-    timestamp: BigInt!
+    operationHistory: [UserOperationHistory!]!
+    # all operate count include all user staking history within community
+    operationCount: Int!
 }
 
 type Pool @entity {
@@ -130,19 +107,27 @@ type User @entity {
     inCommunities: [Community!]!
     inPools: [Pool!]!
     # all user's operate history
-    stakingHistory: [UserStakingHistory!]!
+    operationHistory: [UserOperationHistory!]!
+    # total operation counts
+    operationCount: Int!
 }
 
-enum UserStakingHistoryType {
+enum UserOpertationHistoryType {
     DEPOSIT
     WITHDRAW
     HARVEST
     HARVESTALL
+    ADMINCREATE
+    ADMINSETFEE
+    ADMINWITHDRAW
+    ADMINADDPOOL
+    ADMINCLOSEPOOL
+    ADMINSETRATIO
 }
 
-type UserStakingHistory @entity {
+type UserOperationHistory @entity {
     id: ID!
-    type: UserStakingHistoryType!
+    type: UserOpertationHistoryType!
     community: Community!
     # pool factory contract
     poolFactory: Bytes
@@ -155,9 +140,9 @@ type UserStakingHistory @entity {
     # DEPOSIT/WITHDRAW: stake asset
     # HARVEST/HARVESTALL: community token
     # if this is from steem/hive delegate, it will be delegatee
-    asset: Bytes!
+    asset: Bytes
     # operated asset amount
-    amount: BigInt!
+    amount: BigInt
     # opertate time
     timestamp: BigInt!
     # transaction hash

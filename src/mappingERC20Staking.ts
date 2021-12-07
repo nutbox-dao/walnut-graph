@@ -1,4 +1,4 @@
-import { Pool, Community, User, UserStakingHistory } from '../generated/schema'
+import { Pool, Community, User, UserOperationHistory } from '../generated/schema'
 import { Deposited, Withdrawn } from '../generated/templates/ERC20StakingTemplate/ERC20Staking'
 import { getWalnut } from './mappingCommittee'
 
@@ -46,7 +46,7 @@ export function handleDeposited(event: Deposited): void {
     }
     
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
-    let stakingHistory = new UserStakingHistory(opId);
+    let stakingHistory = new UserOperationHistory(opId);
     stakingHistory.community = communityId;
     stakingHistory.user =  event.params.who;
     stakingHistory.type = 'DEPOSIT'
@@ -84,7 +84,7 @@ export function handleWithdrawn(event: Withdrawn): void {
     }
     
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
-    let stakingHistory = new UserStakingHistory(opId);
+    let stakingHistory = new UserOperationHistory(opId);
     stakingHistory.community = communityId;
     stakingHistory.user =  event.params.who;
     stakingHistory.type = 'WITHDRAW'

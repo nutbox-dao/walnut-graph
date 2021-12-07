@@ -1,6 +1,6 @@
-import { Community, CommunityManageHistory, User, UserStakingHistory, Pool } from '../generated/schema'
+import { Community, User, UserOperationHistory, Pool } from '../generated/schema'
 import { AdminSetFeeRatio, PoolUpdated, AdminClosePool, WithdrawRewards, AdminSetPoolRatio } from '../generated/templates/CommunityTemplate/Community'
-import { ethereum, BigInt, log } from "@graphprotocol/graph-ts";
+import { ethereum, BigInt, log, Bytes, ByteArray } from "@graphprotocol/graph-ts";
 import { SPStakingFactory, ERC20StakingFactory } from "./contracts"
 
 export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
@@ -8,16 +8,11 @@ export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
     if (!community) {
         return;
     }
-
-    let communityManageHistory = createAdminOp(event, "SETFEE", BigInt.zero());
+    // event: ethereum.Event, type: string, community: Community, poolFactory: Bytes, pool: Pool, user: Bytes, chainId: u32, asset: Bytes, amount: BigInt
+    createUserOp(event, "ADMINSETFEE", community, null, null, 0, null, null);
     log.info('[Community]: Admin set fee ratio to:{}', [event.params.ratio.toString()]);
 
     community.feeRatio = event.params.ratio;
-    let historys = community.manageHistory;
-    historys.push(communityManageHistory.id);
-    community.manageHistory = historys;
-    community.operateCount++;
-
     community.save();
 }
 
@@ -38,13 +33,9 @@ export function handleAdminSetPoolRatio(event: AdminSetPoolRatio): void {
         pool.ratio = ratios[i];
         pool.save();
     }
+
     // add set ratio operate
-    let op = createAdminOp(event, "SETRATIO", BigInt.zero());
-    let historys = community.manageHistory;
-    historys.push(op.id);
-    community.manageHistory = historys;
-    community.operateCount++;
-    community.save();
+    createUserOp(event, "ADMINSETRATIO", community, null, null,  0, null, null);
 }
 
 export function handlePoolUpdated(event: PoolUpdated): void {
@@ -62,12 +53,7 @@ export function handleAdminClosePool(event: AdminClosePool): void {
         return;
     }
 
-    let communityManageHistory = createAdminOp(event, "CLOSEPOOL", BigInt.zero());
-    let historys = community.manageHistory;
-    historys.push(communityManageHistory.id);
-    community.manageHistory = historys;
-    community.operateCount++;
-    community.save();
+    createUserOp(event, "ADMINCLOSEPOOL", community, null, null, 0, null, null);
 }
 
 export function handleWithdrawRewards(event: WithdrawRewards): void {
@@ -83,7 +69,7 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
     }
     // add operate history
     let stakingId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
-    let stakingHistory = new UserStakingHistory(stakingId);
+    let stakingHistory = new UserOperationHistory(stakingId);
     stakingHistory.community = event.address.toHex();
     if (event.params.pool.length === 1) {
         stakingHistory.pool = event.params.pool[0].toHex();
@@ -106,10 +92,17 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
     stakingHistory.amount = event.params.amount;
     stakingHistory.tx = event.transaction.hash;
     stakingHistory.timestamp = event.block.timestamp;
-    let historys = user.stakingHistory;
+    // add to user history
+    let historys = user.operationHistory;
     historys.push(stakingId);
-    user.stakingHistory = historys;
-    community.operateCount++;
+    user.operationHistory = historys;
+    user.operationCount++;
+
+    // add to community history
+    historys = community.operationHistory;
+    historys.push(stakingId);
+    community.operationHistory = historys;
+    community.operationCount++;
     community.distributedCToken = community.distributedCToken.plus(event.params.amount);
     stakingHistory.save();
     user.save();
@@ -122,15 +115,34 @@ function getCommunity(event: ethereum.Event): Community | null {
     return community;
 }
 
-function createAdminOp(event: ethereum.Event, type: string, amount: BigInt): CommunityManageHistory {
-    let opId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
-    let history = new CommunityManageHistory(opId)
-    history.tx = event.transaction.hash;
-    history.timestamp = event.block.timestamp;
-    history.type = type;
-    history.pool = event.address.toHex();
-    history.community = event.address;
-    history.amount = amount;
-    history.save();
-    return history;
+function createUserOp(event: ethereum.Event, type: string, community: Community, poolFactory: Bytes | null, pool: Pool | null, chainId: u32, asset: Bytes | null, amount: BigInt | null): void {
+    let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
+    let op = new UserOperationHistory(opId);
+    op.type = type;
+    op.community = community.id;
+    op.poolFactory = poolFactory;
+    op.pool = pool ? pool.id : null;
+    op.user = ByteArray.fromHexString(community.owner);
+    op.chainId = chainId;
+    op.asset = asset;
+    op.amount = amount;
+    op.timestamp = event.block.timestamp;
+    op.tx = event.transaction.hash;
+    op.save();
+
+    let user = User.load(community.owner);
+    if(!user) {
+        return;
+    }
+    let userOps = user.operationHistory;
+    userOps.push(opId);
+    user.operationHistory = userOps;
+    user.operationCount++;
+    user.save();
+
+    let historys = community.operationHistory;
+    historys.push(opId);
+    community.operationHistory = historys;
+    community.operationCount++;
+    community.save();
 }

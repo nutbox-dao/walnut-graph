@@ -1,4 +1,4 @@
-import { Pool, Community, User, UserStakingHistory } from '../generated/schema'
+import { Pool, Community, User, UserOperationHistory } from '../generated/schema'
 import { UpdateStaking } from '../generated/templates/SPStakingTemplate/SPStaking';
 import { getWalnut } from './mappingCommittee'
 
@@ -58,7 +58,7 @@ export function handleUpdateStaking(event: UpdateStaking): void {
     }
 
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
-    let stakingHistory = new UserStakingHistory(opId);
+    let stakingHistory = new UserOperationHistory(opId);
     stakingHistory.community = communityId;
     stakingHistory.user =  event.params.who;
     stakingHistory.type = isDeposit ? 'DEPOSIT' : "WITHDRAW";

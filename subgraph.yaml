@@ -127,7 +127,7 @@ templates:
       entities:
         - Pool
         - User
-        - UserStakingHistory
+        - UserOperationHistory
       abis: 
         - name: ERC20Staking
           file: ./abis/ERC20Staking.json
@@ -149,7 +149,7 @@ templates:
       entities:
         - Pool
         - User
-        - UserStakingHistory
+        - UserOperationHistory
       abis: 
         - name: SPStaking
           file: ./abis/SPStaking.json
