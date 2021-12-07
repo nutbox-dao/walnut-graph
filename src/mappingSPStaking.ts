@@ -69,10 +69,15 @@ export function handleUpdateStaking(event: UpdateStaking): void {
     stakingHistory.amount = isDeposit ? newAmount.minus(previousAmount) : previousAmount.minus(newAmount);
     stakingHistory.timestamp = event.block.timestamp;
     stakingHistory.tx = event.transaction.hash;
-    let historys = user.stakingHistory;
+    let historys = user.operationHistory;
     historys.push(opId);
-    user.stakingHistory = historys;
-    community.operateCount++;
+    user.operationHistory = historys;
+    community.operationCount++;
+
+    historys = community.operationHistory;
+    historys.push(opId);
+    community.operationHistory = historys;
+    community.operationCount++;
  
     community.save();
     user.save();

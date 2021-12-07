@@ -1,9 +1,9 @@
-import { Pool, Community, CommunityManageHistory } from '../generated/schema'
+import { Pool, Community, UserOperationHistory, User } from '../generated/schema';
 import { ERC20StakingCreated } from '../generated/ERC20StakingFactory/ERC20StakingFactory'
 import { ERC20StakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { ERC20StakingFactory } from "./contracts"
-import { BigInt, log } from '@graphprotocol/graph-ts';
+import { BigInt, log, ByteArray } from '@graphprotocol/graph-ts';
 
 // event ERC20StakingCreated(
 //     address indexed pool,
@@ -47,18 +47,33 @@ export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
 
     // add community and pool operator history
     let historyId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
-    let communityHistory = new CommunityManageHistory(historyId);
-    communityHistory.type = "ADDPOOL";
+    let communityHistory = new UserOperationHistory(historyId);
+    communityHistory.type = "ADMINADDPOOL";
+    communityHistory.community = community.id;
+    communityHistory.poolFactory = pool.poolFactory;
     communityHistory.pool = pool.id;
+    communityHistory.user = ByteArray.fromHexString(community.owner);
+
     communityHistory.tx = event.transaction.hash;
     communityHistory.timestamp = event.block.timestamp;
+
     communityHistory.save();
     
-    let historys = community.manageHistory;
+    let historys = community.operationHistory;
     historys.push(historyId);
-    community.manageHistory = historys;
-    community.operateCount++;
+    community.operationHistory = historys;
+    community.operationCount++;
     community.save();
+
+    let user = User.load(community.owner);
+    if (!user) {
+        return;
+    }
+    historys = user.operationHistory;
+    historys.push(historyId);
+    user.operationHistory = historys;
+    user.operationCount++;
+    user.save();
 
     // add new stake asset
     let allAssets = walnut.stakeAssets;

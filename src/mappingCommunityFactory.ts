@@ -1,5 +1,5 @@
 import { CommunityTemplate } from '../generated/templates'
-import { Community, User, CommunityManageHistory } from '../generated/schema'
+import { Community, User, UserOperationHistory } from '../generated/schema'
 import { CommunityCreated } from '../generated/CommunityFactory/CommunityFactory'
 import { getWalnut } from './mappingCommittee'
 import { log } from '@graphprotocol/graph-ts'
@@ -32,16 +32,22 @@ export function handleCommunityCreated(event: CommunityCreated): void {
 
     // add community create op to community
     let opId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toHexString();
-    let communityop = new CommunityManageHistory(opId);
-    communityop.type = "CREATE";
+    let communityop = new UserOperationHistory(opId);
+    communityop.type = "ADMINCREATE";
     communityop.tx = event.transaction.hash;
     communityop.timestamp = event.block.timestamp;
-    communityop.community = event.params.community;
+    communityop.community = event.params.community.toHex();
+    communityop.user = event.params.creator;
 
-    let ops = community.manageHistory;
+    let ops = community.operationHistory;
     ops.push(opId);
-    community.manageHistory = ops;
-    community.operateCount++;
+    community.operationHistory = ops;
+    community.operationCount++;
+
+    ops = user.operationHistory;
+    ops.push(opId);
+    user.operationHistory = ops;
+    user.operationCount++;
 
     community.owner = userId;
     community.cToken = event.params.communityToken;

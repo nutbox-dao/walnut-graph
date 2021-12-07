@@ -1,9 +1,9 @@
-import { Pool, Community, CommunityManageHistory } from '../generated/schema'
+import { Pool, Community, UserOperationHistory, User } from '../generated/schema';
 import { SPStakingCreated } from '../generated/SPStakingFactory/SPStakingFactory'
 import { SPStakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { SPStakingFactory } from "./contracts"
-import { BigInt, log } from '@graphprotocol/graph-ts';
+import { BigInt, log, ByteArray } from '@graphprotocol/graph-ts';
 
 // event SPStakingCreated(
 //     address indexed pool,
@@ -49,18 +49,31 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
 
     // add community and pool operator history
     let historyId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
-    let communityHistory = new CommunityManageHistory(historyId);
-    communityHistory.type = "ADDPOOL";
+    let communityHistory = new UserOperationHistory(historyId);
+    communityHistory.type = "ADMINADDPOOL";
+    communityHistory.community = community.id;
+    communityHistory.poolFactory = pool.poolFactory;
     communityHistory.pool = pool.id;
+    communityHistory.user = ByteArray.fromHexString(community.owner);
     communityHistory.tx = event.transaction.hash;
     communityHistory.timestamp = event.block.timestamp;
     communityHistory.save();
     
-    let historys = community.manageHistory;
+    let historys = community.operationHistory;
     historys.push(historyId);
-    community.manageHistory = historys;
-    community.operateCount++;
+    community.operationHistory = historys;
+    community.operationCount++;
     community.save();
+
+    let user = User.load(community.owner);
+    if(!user) {
+        return;
+    }
+    historys = user.operationHistory;
+    historys.push(historyId);
+    user.operationHistory = historys;
+    user.operationCount++;
+    user.save();
 
     walnut.totalPools += 1;
     walnut.save();

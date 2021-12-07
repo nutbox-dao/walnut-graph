@@ -1,6 +1,7 @@
 import { Pool, Community, User, UserOperationHistory } from '../generated/schema'
 import { Deposited, Withdrawn } from '../generated/templates/ERC20StakingTemplate/ERC20Staking'
 import { getWalnut } from './mappingCommittee'
+import { Bytes, ByteArray, ethereum, BigInt, log } from '@graphprotocol/graph-ts';
 
 export function handleDeposited(event: Deposited): void {
     let communityId = event.params.community.toHex();
@@ -45,24 +46,7 @@ export function handleDeposited(event: Deposited): void {
         user.inCommunities = userCommunity;
     }
     
-    let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
-    let stakingHistory = new UserOperationHistory(opId);
-    stakingHistory.community = communityId;
-    stakingHistory.user =  event.params.who;
-    stakingHistory.type = 'DEPOSIT'
-    stakingHistory.pool = event.address.toHex();
-    stakingHistory.poolFactory = pool.poolFactory;
-    stakingHistory.asset = pool.asset;
-    stakingHistory.amount = amount;
-    stakingHistory.timestamp = event.block.timestamp;
-    stakingHistory.tx = event.transaction.hash;
-    let historys = user.stakingHistory;
-    historys.push(opId);
-    user.stakingHistory = historys;
-    community.operateCount++;
-    community.save();
-    user.save();
-    stakingHistory.save();
+    createUserOp(event, 'DEPOSIT', community, pool.poolFactory, pool, event.params.who, 0, pool.asset, amount);
 }
 
 export function handleWithdrawn(event: Withdrawn): void {
@@ -82,25 +66,38 @@ export function handleWithdrawn(event: Withdrawn): void {
     if(!user){
         return;
     }
-    
+    createUserOp(event, 'WITHDRAW', community, pool.poolFactory, pool, event.params.who, 0, pool.asset, amount);
+}
+
+function createUserOp(event: ethereum.Event, type: string, community: Community, poolFactory: Bytes | null, pool: Pool, userb: Bytes, chainId: u32, asset: Bytes | null, amount: BigInt | null): void {
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
-    let stakingHistory = new UserOperationHistory(opId);
-    stakingHistory.community = communityId;
-    stakingHistory.user =  event.params.who;
-    stakingHistory.type = 'WITHDRAW'
-    stakingHistory.pool = event.address.toHex();
-    stakingHistory.poolFactory = pool.poolFactory;
-    stakingHistory.asset = pool.asset;
-    stakingHistory.amount = amount;
-    stakingHistory.timestamp = event.block.timestamp;
-    stakingHistory.tx = event.transaction.hash;
+    let op = new UserOperationHistory(opId);
+    op.type = type;
+    op.community = community.id;
+    op.poolFactory = poolFactory;
+    op.pool = pool.id;
+    op.user = userb;
+    op.chainId = chainId;
+    op.asset = asset;
+    op.amount = amount;
+    op.timestamp = event.block.timestamp;
+    op.tx = event.transaction.hash;
+    op.save();
 
-    let historys = user.stakingHistory;
-    historys.push(opId);
-    user.stakingHistory = historys;
-    community.operateCount++;
-    community.save();
-
+    let user = User.load(community.owner);
+    if(!user) {
+        return;
+    }
+    let userOps = user.operationHistory;
+    userOps.push(opId);
+    user.operationHistory = userOps;
+    user.operationCount++;
     user.save();
-    stakingHistory.save();
+
+    let historys = community.operationHistory;
+    historys.push(opId);
+    community.operationHistory = historys;
+    community.operationCount++;
+    log.info('Create new staking history: community:{} pool:{} user:{} type:{}', [community.id, pool.name, community.owner, type]);
+    community.save();
 }
