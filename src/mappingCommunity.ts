@@ -122,7 +122,7 @@ function createUserOp(event: ethereum.Event, type: string, community: Community,
     op.community = community.id;
     op.poolFactory = poolFactory;
     op.pool = pool ? pool.id : null;
-    op.user = ByteArray.fromHexString(community.owner);
+    op.user = Bytes.fromByteArray(ByteArray.fromHexString(community.owner));
     op.chainId = chainId;
     op.asset = asset;
     op.amount = amount;

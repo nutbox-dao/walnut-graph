@@ -3,7 +3,7 @@ import { ERC20StakingCreated } from '../generated/ERC20StakingFactory/ERC20Staki
 import { ERC20StakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { ERC20StakingFactory } from "./contracts"
-import { BigInt, log, ByteArray } from '@graphprotocol/graph-ts';
+import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
 
 // event ERC20StakingCreated(
 //     address indexed pool,
@@ -52,7 +52,7 @@ export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
     communityHistory.community = community.id;
     communityHistory.poolFactory = pool.poolFactory;
     communityHistory.pool = pool.id;
-    communityHistory.user = ByteArray.fromHexString(community.owner);
+    communityHistory.user = Bytes.fromByteArray(ByteArray.fromHexString(community.owner));
 
     communityHistory.tx = event.transaction.hash;
     communityHistory.timestamp = event.block.timestamp;

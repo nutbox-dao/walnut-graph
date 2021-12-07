@@ -3,7 +3,7 @@ import { SPStakingCreated } from '../generated/SPStakingFactory/SPStakingFactory
 import { SPStakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { SPStakingFactory } from "./contracts"
-import { BigInt, log, ByteArray } from '@graphprotocol/graph-ts';
+import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
 
 // event SPStakingCreated(
 //     address indexed pool,
@@ -54,7 +54,7 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     communityHistory.community = community.id;
     communityHistory.poolFactory = pool.poolFactory;
     communityHistory.pool = pool.id;
-    communityHistory.user = ByteArray.fromHexString(community.owner);
+    communityHistory.user = Bytes.fromByteArray(ByteArray.fromHexString(community.owner));
     communityHistory.tx = event.transaction.hash;
     communityHistory.timestamp = event.block.timestamp;
     communityHistory.save();
