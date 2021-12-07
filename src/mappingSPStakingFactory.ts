@@ -43,6 +43,7 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     pool.save();
     // add pool to community
     let pools = community.pools;
+    community.poolsCount++;
     pools.push(pool.id);
     community.pools = pools;
 

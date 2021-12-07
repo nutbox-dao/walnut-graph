@@ -33,11 +33,13 @@ export function handleUpdateStaking(event: UpdateStaking): void {
         let comUsers = community.users;
         comUsers.push(userId);
         community.users = comUsers;
+        community.usersCount++;
         community.save();
 
         let poolUsers = pool.stakers;
         poolUsers.push(userId);
         pool.stakers = poolUsers;
+        pool.stakersCount++;
         pool.save();
     }
 

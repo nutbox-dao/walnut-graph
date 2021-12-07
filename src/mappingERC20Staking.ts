@@ -25,12 +25,14 @@ export function handleDeposited(event: Deposited): void {
         walnut.save();
         let comUsers = community.users;
         comUsers.push(userId);
+        community.usersCount += 1;
         community.users = comUsers;
         community.save();
 
         let poolUsers = pool.stakers;
         poolUsers.push(userId);
         pool.stakers = poolUsers;
+        pool.stakersCount += 1;
         pool.save();
     }
     if (!user.inPools.includes(poolId)){

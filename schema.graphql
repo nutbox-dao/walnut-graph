@@ -59,6 +59,10 @@ type Community @entity {
     users: [User!]!
     # all pool info
     pools: [Pool!]!
+    # total users count
+    usersCount: Int!
+    # total pools count
+    poolsCount: Int!
     # actived pool count
     activedPoolCount: Int!
     # all community admin operate history
@@ -108,6 +112,8 @@ type Pool @entity {
     tvl: BigInt
     # all staker list
     stakers: [User!]!
+    # all user count
+    stakersCount: Int!
 }
 
 enum PoolStatus {

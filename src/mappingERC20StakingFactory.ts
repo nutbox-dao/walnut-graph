@@ -42,6 +42,7 @@ export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
     // add pool to community
     let pools = community.pools;
     pools.push(pool.id);
+    community.poolsCount++;
     community.pools = pools;
 
     // add community and pool operator history
