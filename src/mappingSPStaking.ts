@@ -42,6 +42,20 @@ export function handleUpdateStaking(event: UpdateStaking): void {
         pool.save();
     }
 
+    let comUsers = community.users;
+    if (!comUsers.includes(userId)){
+        comUsers.push(userId);
+        community.usersCount += 1;
+        community.users = comUsers;
+    }
+
+    let poolUsers = pool.stakers;
+    if (!poolUsers.includes(userId)){
+        poolUsers.push(userId);
+        pool.stakers = poolUsers;
+        pool.stakersCount += 1;
+    }    
+
     if (!user.inPools.includes(poolId)){
         let userPools = user.inPools;
         userPools.push(userId);
@@ -80,6 +94,7 @@ export function handleUpdateStaking(event: UpdateStaking): void {
     community.operationCount++;
  
     community.save();
+    pool.save();
     user.save();
     stakingHistory.save();
 }
