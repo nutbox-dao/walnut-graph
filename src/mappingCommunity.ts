@@ -9,7 +9,7 @@ export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
         return;
     }
     // event: ethereum.Event, type: string, community: Community, poolFactory: Bytes, pool: Pool, user: Bytes, chainId: u32, asset: Bytes, amount: BigInt
-    createUserOp(event, "ADMINSETFEE", community, null, null, 0, null, null);
+    createUserOp(event, "ADMINSETFEE", community, null, null, 0, null, BigInt.fromU32(event.params.ratio));
     log.info('[Community]: Admin set fee ratio to:{}', [event.params.ratio.toString()]);
 
     community.feeRatio = event.params.ratio;
