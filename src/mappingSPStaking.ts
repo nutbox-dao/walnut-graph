@@ -67,9 +67,14 @@ export function handleUpdateStaking(event: UpdateStaking): void {
         user.inCommunities = userCommunity;
     }
     let isDeposit = false;
+    // update pool total amount
     if (newAmount > previousAmount) {
         isDeposit = true;
+        pool.totalAmount = pool.totalAmount.plus(newAmount.minus(previousAmount));
+    } else {
+        pool.totalAmount = pool.totalAmount.minus(previousAmount.minus(newAmount));
     }
+
 
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let stakingHistory = new UserOperationHistory(opId);

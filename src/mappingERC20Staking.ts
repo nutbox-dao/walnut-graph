@@ -38,6 +38,8 @@ export function handleDeposited(event: Deposited): void {
         pool.stakers = poolUsers;
         pool.stakersCount += 1;
     }
+    // update total amount 
+    pool.totalAmount = pool.totalAmount.plus(amount);
     pool.save();
 
     if (!user.inPools.includes(poolId)){
@@ -71,6 +73,8 @@ export function handleWithdrawn(event: Withdrawn): void {
     if(!user){
         return;
     }
+    pool.totalAmount = pool.totalAmount.minus(amount);
+    pool.save();
     createUserOp(event, 'WITHDRAW', community, pool.poolFactory, pool, event.params.who, 0, pool.asset, amount);
 }
 

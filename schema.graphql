@@ -73,6 +73,8 @@ type Community @entity {
 
 type Pool @entity {
     id: ID!
+    # pool index in activedPools
+    poolIndex: Int!
     createdAt: BigInt!
     status: PoolStatus!
     # pool name
@@ -87,6 +89,8 @@ type Pool @entity {
     asset: Bytes!
     # foreign chain id steem：1  hive：2
     chainId: Int
+    # totalStakedAmount
+    totalAmount: BigInt!
     # optional
     tvl: BigInt
     # all staker list

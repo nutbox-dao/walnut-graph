@@ -30,6 +30,7 @@ export function handleAdminSetPoolRatio(event: AdminSetPoolRatio): void {
             pool = new Pool(pools[i].toHex());
             log.info('[Community] Create new pool:{} ratio:{}', [pools[i].toHex(), ratios[i].toString()]);
         }
+        pool.poolIndex = i;
         pool.ratio = ratios[i];
         pool.save();
     }
@@ -52,6 +53,10 @@ export function handleAdminClosePool(event: AdminClosePool): void {
     if (!community) {
         return;
     }
+    let pool = Pool.load(event.params.pool.toHex());
+    pool!.status = 'CLOSED';
+    pool!.save();
+    
 
     createUserOp(event, "ADMINCLOSEPOOL", community, null, null, 0, null, null);
 }
