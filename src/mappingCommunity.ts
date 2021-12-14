@@ -57,8 +57,7 @@ export function handleAdminClosePool(event: AdminClosePool): void {
     pool!.status = 'CLOSED';
     pool!.save();
     
-
-    createUserOp(event, "ADMINCLOSEPOOL", community, null, null, 0, null, null);
+    createUserOp(event, "ADMINCLOSEPOOL", community, null, pool, 0, null, null);
 }
 
 export function handleWithdrawRewards(event: WithdrawRewards): void {
