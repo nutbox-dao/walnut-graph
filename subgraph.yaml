@@ -6,9 +6,9 @@ dataSources:
     name: Committee
     network: goerli
     source:
-      address: "0xd07f5eF8AAc5BA569641cA883c51FD85c9365133"
+      address: "0xD0c1B34b4f7EA34ECD15829b39124c096D79a218"
       abi: Committee
-      startBlock: 6013567
+      startBlock: 6025660
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -30,9 +30,9 @@ dataSources:
     name: CommunityFactory
     network: goerli
     source:
-      address: "0x719bB34dEd002f2EAa1F0c21e1Dc7f48778290b5"
+      address: "0x748064b154ce625f5b13408149860b35Bc67DedF"
       abi: CommunityFactory
-      startBlock: 6013567
+      startBlock: 6025660
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -51,9 +51,9 @@ dataSources:
     name: ERC20StakingFactory
     network: goerli
     source:
-      address: "0x90dF809AfD52935483213BE5c7943f7AD7e85e3A"
+      address: "0xC27b4Ab154318431cD926F3aE6cB846Af7294aB8"
       abi: ERC20StakingFactory
-      startBlock: 6013567
+      startBlock: 6025660
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -71,9 +71,9 @@ dataSources:
     name: SPStakingFactory
     network: goerli
     source:
-      address: "0x17F10FAC484AE8990b5eC9a4CC97d3CF2F395bbd"
+      address: "0x6e77E0f5750C29951281D77d12239FfF439a7eae"
       abi: SPStakingFactory
-      startBlock: 6013567
+      startBlock: 6025660
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
