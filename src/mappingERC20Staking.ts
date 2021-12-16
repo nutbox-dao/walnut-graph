@@ -44,7 +44,7 @@ export function handleDeposited(event: Deposited): void {
 
     if (!user.inPools.includes(poolId)){
         let userPools = user.inPools;
-        userPools.push(userId);
+        userPools.push(poolId);
         user.inPools = userPools;
     }
     if (!user.inCommunities.includes(communityId)) {
@@ -52,6 +52,7 @@ export function handleDeposited(event: Deposited): void {
         userCommunity.push(communityId);
         user.inCommunities = userCommunity;
     }
+    user.save();
     
     createUserOp(event, 'DEPOSIT', community, pool.poolFactory, pool, event.params.who, 0, pool.asset, amount);
 }
