@@ -58,7 +58,7 @@ export function handleUpdateStaking(event: UpdateStaking): void {
 
     if (!user.inPools.includes(poolId)){
         let userPools = user.inPools;
-        userPools.push(userId);
+        userPools.push(poolId);
         user.inPools = userPools;
     }
     if (!user.inCommunities.includes(communityId)) {
