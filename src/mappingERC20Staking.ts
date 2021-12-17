@@ -94,7 +94,7 @@ function createUserOp(event: ethereum.Event, type: string, community: Community,
     op.tx = event.transaction.hash;
     op.save();
 
-    let user = User.load(community.owner);
+    let user = User.load(userb.toHex());
     if(!user) {
         return;
     }

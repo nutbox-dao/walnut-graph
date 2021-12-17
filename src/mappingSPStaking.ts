@@ -91,7 +91,7 @@ export function handleUpdateStaking(event: UpdateStaking): void {
     let historys = user.operationHistory;
     historys.push(opId);
     user.operationHistory = historys;
-    community.operationCount++;
+    user.operationCount++;
 
     historys = community.operationHistory;
     historys.push(opId);
