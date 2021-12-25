@@ -49,6 +49,11 @@ export function handleCommunityCreated(event: CommunityCreated): void {
     user.operationHistory = ops;
     user.operationCount++;
 
+    community.usersCount = 1;
+    let users = community.users;
+    users.push(userId);
+    community.users = users;
+
     community.owner = userId;
     community.cToken = event.params.communityToken;
     let communities = walnut.communities

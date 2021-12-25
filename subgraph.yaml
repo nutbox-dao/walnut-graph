@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Committee
-    network: goerli
+    network: chapel
     source:
-      address: "0xD0c1B34b4f7EA34ECD15829b39124c096D79a218"
+      address: "0x0cc11E1c734E9A74151253e1120f879d628C0942"
       abi: Committee
-      startBlock: 6025660
+      startBlock: 15270548
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -28,11 +28,11 @@ dataSources:
       file: ./src/mappingCommittee.ts
   - kind: ethereum/contract
     name: CommunityFactory
-    network: goerli
+    network: chapel
     source:
-      address: "0x748064b154ce625f5b13408149860b35Bc67DedF"
+      address: "0x78569fF2Ca9a5b6A30FAe0D16Cdbe6107eA3eC44"
       abi: CommunityFactory
-      startBlock: 6025660
+      startBlock: 15270548
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -49,11 +49,11 @@ dataSources:
       file: ./src/mappingCommunityFactory.ts
   - kind: ethereum/contract
     name: ERC20StakingFactory
-    network: goerli
+    network: chapel
     source:
-      address: "0xC27b4Ab154318431cD926F3aE6cB846Af7294aB8"
+      address: "0x7e325469095C175F1a66761EF6F8aB343c58A691"
       abi: ERC20StakingFactory
-      startBlock: 6025660
+      startBlock: 15270548
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -69,11 +69,11 @@ dataSources:
       file: ./src/mappingERC20StakingFactory.ts
   - kind: ethereum/contract
     name: SPStakingFactory
-    network: goerli
+    network: chapel
     source:
-      address: "0x6e77E0f5750C29951281D77d12239FfF439a7eae"
+      address: "0x4042163cF1E94B5A0aE5296De55A076110D03e55"
       abi: SPStakingFactory
-      startBlock: 6025660
+      startBlock: 15270548
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -90,7 +90,7 @@ dataSources:
 templates:
   - name: CommunityTemplate
     kind: ethereum/contract
-    network: goerli
+    network: chapel
     source:
       abi: Community
     mapping:
@@ -117,7 +117,7 @@ templates:
       file: ./src/mappingCommunity.ts
   - name: ERC20StakingTemplate
     kind: ethereum/contract
-    network: goerli
+    network: chapel
     source:
       abi: ERC20Staking
     mapping:
@@ -139,7 +139,7 @@ templates:
       file: ./src/mappingERC20Staking.ts
   - name: SPStakingTemplate
     kind: ethereum/contract
-    network: goerli
+    network: chapel
     source:
       abi: SPStaking
     mapping:
