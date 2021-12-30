@@ -114,6 +114,8 @@ templates:
           handler: handleAdminClosePool
         - event: "WithdrawRewards(address[],indexed address,uint256)"
           handler: handleWithdrawRewards
+        - event: "OwnershipTransferred(indexed address,indexed address)"
+          handler: handleOwnershipTransferred
       file: ./src/mappingCommunity.ts
   - name: ERC20StakingTemplate
     kind: ethereum/contract

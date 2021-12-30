@@ -1,5 +1,5 @@
 import { Community, User, UserOperationHistory, Pool } from '../generated/schema'
-import { AdminSetFeeRatio, PoolUpdated, AdminClosePool, WithdrawRewards, AdminSetPoolRatio } from '../generated/templates/CommunityTemplate/Community'
+import { AdminSetFeeRatio, PoolUpdated, AdminClosePool, WithdrawRewards, AdminSetPoolRatio, OwnershipTransferred } from '../generated/templates/CommunityTemplate/Community'
 import { ethereum, BigInt, log, Bytes, ByteArray } from "@graphprotocol/graph-ts";
 import { SPStakingFactory, ERC20StakingFactory } from "./contracts"
 
@@ -111,6 +111,13 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
     stakingHistory.save();
     user.save();
     community.save();
+}
+
+export function handleOwnershipTransferred(event: OwnershipTransferred): void {
+    const community = getCommunity(event);
+    if(!community) return;
+    community.owner = event.params.newOwner.toHex();
+
 }
 
 function getCommunity(event: ethereum.Event): Community | null {
