@@ -109,9 +109,9 @@
         "type": "uint8"
       },
       {
-        "internalType": "string",
+        "internalType": "bytes32",
         "name": "_delegatee",
-        "type": "string"
+        "type": "bytes32"
       },
       {
         "internalType": "address",

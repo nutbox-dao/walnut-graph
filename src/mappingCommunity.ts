@@ -33,8 +33,11 @@ export function handleAdminSetPoolRatio(event: AdminSetPoolRatio): void {
         pool.ratio = ratios[i];
         pool.save();
     }
-    log.info('[Community]: Admin set pool ratio: {}, {}', [pools[0].toString(), ratios[0].toString()]);
-
+    // try{
+    //     log.info('[Community]: Admin set pool ratio: {}, {}', [pools[0].toHexString(), ratios[0].toString()]);
+    // }catch(e) {
+    //     log.info('No active pool now',[]);
+    // }
     // add set ratio operate
     createUserOp(event, "ADMINSETRATIO", community, null, null,  0, null, null);
 }
@@ -117,7 +120,7 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
     const community = getCommunity(event);
     if(!community) return;
     community.owner = event.params.newOwner.toHex();
-
+    community.save();
 }
 
 function getCommunity(event: ethereum.Event): Community | null {

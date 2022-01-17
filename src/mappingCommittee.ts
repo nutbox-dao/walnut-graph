@@ -4,7 +4,7 @@ import { Committee } from './contracts';
 
 export function handleNewRevenue(event: NewRevenue): void {
     let walnut = getWalnut();
-    let feeId:string = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
+    let feeId:string = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toHexString();
     let feeHistory = new FeeHistory(feeId);
     feeHistory.timestamp = event.block.timestamp;
     feeHistory.feeType = event.params.feeType;
@@ -22,7 +22,7 @@ export function handleNewRevenue(event: NewRevenue): void {
 
 export function handleNewAppropriation(event: NewAppropriation): void {
     let walnut = getWalnut();
-    let appropriationId:string = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
+    let appropriationId:string = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toHexString();
     let appropriationHistory = new AppropriationHistory(appropriationId);
     appropriationHistory.timestamp = event.block.timestamp;
     appropriationHistory.recipient = event.params.recipient;

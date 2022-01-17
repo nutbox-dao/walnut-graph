@@ -6,7 +6,7 @@
     "build": "graph build",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ terryyyyyyy/walnutingoerli",
     "deploy-goerli": "graph deploy --product hosted-service terryyyyyy/walnutingoerli",
-    "deploy-bsct": "graph deploy --product hosted-service terryyyyyy/walnutingoerli",
+    "deploy-bsct": "graph deploy --product hosted-service terryyyyyy/walnutinchapel",
     "create-local": "graph create --node http://localhost:8020/ terryyyyyyy/walnutingoerli",
     "remove-local": "graph remove --node http://localhost:8020/ terryyyyyyy/walnutingoerli",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 terryyyyyyy/walnutingoerli"
