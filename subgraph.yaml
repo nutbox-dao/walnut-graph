@@ -25,6 +25,8 @@ dataSources:
           handler: handleNewRevenue
         - event: "NewAppropriation(address,uint256)"
           handler: handleNewAppropriation
+        - event: "FeeSet(indexed string,uint256)"
+          handler: handleFeeSet
       file: ./src/mappingCommittee.ts
   - kind: ethereum/contract
     name: CommunityFactory
@@ -116,6 +118,8 @@ templates:
           handler: handleWithdrawRewards
         - event: "OwnershipTransferred(indexed address,indexed address)"
           handler: handleOwnershipTransferred
+        - event: "DevChanged(indexed address, indexed address)"
+          handler: handleDevChanged
       file: ./src/mappingCommunity.ts
   - name: ERC20StakingTemplate
     kind: ethereum/contract
