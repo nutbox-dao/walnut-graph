@@ -1,5 +1,14 @@
 import { Community, User, UserOperationHistory, Pool } from '../generated/schema'
-import { AdminSetFeeRatio, PoolUpdated, AdminClosePool, WithdrawRewards, AdminSetPoolRatio, OwnershipTransferred } from '../generated/templates/CommunityTemplate/Community'
+import {
+    AdminSetFeeRatio,
+    PoolUpdated,
+    AdminClosePool,
+    WithdrawRewards,
+    AdminSetPoolRatio,
+    OwnershipTransferred,
+    DevChanged,
+    RevenueWithdrawn
+} from '../generated/templates/CommunityTemplate/Community'
 import { ethereum, BigInt, log, Bytes, ByteArray } from "@graphprotocol/graph-ts";
 import { SPStakingFactory, ERC20StakingFactory } from "./contracts"
 
@@ -20,26 +29,36 @@ export function handleAdminSetPoolRatio(event: AdminSetPoolRatio): void {
     let pools = event.params.pools;
     let ratios = event.params.ratios;
     let community = getCommunity(event);
-    if (!community){
+    if (!community) {
         return;
     }
     community.activedPoolCount = event.params.pools.length;
     for (let i = 0; i < pools.length; i++) {
         let pool = Pool.load(pools[i].toHex());
-        if (!pool){
+        if (!pool) {
             continue;
         }
         pool.poolIndex = i;
         pool.ratio = ratios[i];
         pool.save();
     }
-    // try{
-    //     log.info('[Community]: Admin set pool ratio: {}, {}', [pools[0].toHexString(), ratios[0].toString()]);
-    // }catch(e) {
-    //     log.info('No active pool now',[]);
-    // }
-    // add set ratio operate
-    createUserOp(event, "ADMINSETRATIO", community, null, null,  0, null, null);
+    createUserOp(event, "ADMINSETRATIO", community, null, null, 0, null, null);
+}
+
+export function handleDevChanged(event: DevChanged): void {
+    let community = getCommunity(event);
+    if (!community) {
+        return;
+    }
+    createUserOp(event, "ADMINSETDAOFUND", community, null, null, 0, null, null);
+}
+
+export function handleRevenueWithdrawn(event: RevenueWithdrawn): void {
+    let community = getCommunity(event);
+    if (!community) {
+        return;
+    }
+    createUserOp(event, "ADMINWITHDRAWNREVENUE", community, null, null, 0, event.params.devFund, null);
 }
 
 export function handlePoolUpdated(event: PoolUpdated): void {
@@ -82,15 +101,15 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
         stakingHistory.pool = event.params.pool[0].toHex();
         stakingHistory.type = 'HARVEST';
         let pool = Pool.load(event.params.pool[0].toHex());
-        if (pool){
+        if (pool) {
             stakingHistory.poolFactory = pool.poolFactory;
             if (pool.poolFactory == SPStakingFactory) {
                 stakingHistory.chainId == pool.chainId;
-            }else if (pool.poolFactory == ERC20StakingFactory) {
+            } else if (pool.poolFactory == ERC20StakingFactory) {
 
             }
         }
-    }else{
+    } else {
         stakingHistory.type = "HARVESTALL";
     }
     stakingHistory.user = event.params.who;
@@ -118,7 +137,7 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
     const community = getCommunity(event);
-    if(!community) return;
+    if (!community) return;
     community.owner = event.params.newOwner.toHex();
     community.save();
 }
@@ -145,7 +164,7 @@ function createUserOp(event: ethereum.Event, type: string, community: Community,
     op.save();
 
     let user = User.load(community.owner);
-    if(!user) {
+    if (!user) {
         return;
     }
     let userOps = user.operationHistory;

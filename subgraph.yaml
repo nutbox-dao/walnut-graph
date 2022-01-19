@@ -6,9 +6,9 @@ dataSources:
     name: Committee
     network: chapel
     source:
-      address: "0xfdAf7185A944a575c9dF7186c0cf879f93806eF8"
+      address: "0x3061EE7534646f01fb37784835f97CDf9A47E42d"
       abi: Committee
-      startBlock: 15849878
+      startBlock: 15997025
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -25,16 +25,14 @@ dataSources:
           handler: handleNewRevenue
         - event: "NewAppropriation(address,uint256)"
           handler: handleNewAppropriation
-        - event: "FeeSet(indexed string,uint256)"
-          handler: handleFeeSet
       file: ./src/mappingCommittee.ts
   - kind: ethereum/contract
     name: CommunityFactory
     network: chapel
     source:
-      address: "0xF2D0AC8699e84eaA52Db8dd6Af30Eb635EaF2Cb2"
+      address: "0xD3878336d52f0dF36cF0eb605a282A1DEAcd0bD8"
       abi: CommunityFactory
-      startBlock: 15849878
+      startBlock: 15997025
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -53,9 +51,9 @@ dataSources:
     name: ERC20StakingFactory
     network: chapel
     source:
-      address: "0x7b448d1213f0d998Adb940b3338D4cAb12a79a5e"
+      address: "0x8B7EFbE9a0Fe37f4ecDBBDD52FBfd5EF8A165950"
       abi: ERC20StakingFactory
-      startBlock: 15849878
+      startBlock: 15997025
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -73,9 +71,9 @@ dataSources:
     name: SPStakingFactory
     network: chapel
     source:
-      address: "0x3C011D3808aE6b456E2f6BDf10b81043e7FA7E6D"
+      address: "0x36A05868b5aBecB6cc26338c86E116f81dc60909"
       abi: SPStakingFactory
-      startBlock: 15849878
+      startBlock: 15997025
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -118,8 +116,10 @@ templates:
           handler: handleWithdrawRewards
         - event: "OwnershipTransferred(indexed address,indexed address)"
           handler: handleOwnershipTransferred
-        - event: "DevChanged(indexed address, indexed address)"
+        - event: "DevChanged(indexed address,indexed address)"
           handler: handleDevChanged
+        - event: "RevenueWithdrawn(indexed address,uint256)"
+          handler: handleRevenueWithdrawn
       file: ./src/mappingCommunity.ts
   - name: ERC20StakingTemplate
     kind: ethereum/contract

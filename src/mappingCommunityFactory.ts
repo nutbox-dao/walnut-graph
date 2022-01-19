@@ -16,6 +16,7 @@ export function handleCommunityCreated(event: CommunityCreated): void {
     ]);
     let community = new Community(communityId);
     community.createdAt = event.block.timestamp;
+    community.daoFund = event.params.creator;
     let userId = event.params.creator.toHex();
     let user = User.load(userId);
     if (!user) {

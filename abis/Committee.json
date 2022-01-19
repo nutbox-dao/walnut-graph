@@ -34,11 +34,11 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "feeIgnore",
+        "name": "feeFree",
         "type": "address"
       }
     ],
-    "name": "AdminAddFeeIgnoreAddress",
+    "name": "AdminAddFeeFreeAddress",
     "type": "event"
   },
   {
@@ -73,11 +73,11 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "feeIgnore",
+        "name": "feeFree",
         "type": "address"
       }
     ],
-    "name": "AdminRemoveFeeIgnoreAddress",
+    "name": "AdminRemoveFeeFreeAddress",
     "type": "event"
   },
   {
@@ -332,7 +332,7 @@
         "type": "address"
       }
     ],
-    "name": "adminAddFeeIgnoreAddress",
+    "name": "adminAddFeeFreeAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -345,7 +345,7 @@
         "type": "address"
       }
     ],
-    "name": "adminRemoveFeeIgnoreAddress",
+    "name": "adminRemoveFeeFreeAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -397,17 +397,17 @@
   {
     "inputs": [
       {
-        "internalType": "string[]",
-        "name": "feeTypes",
-        "type": "string[]"
+        "internalType": "string",
+        "name": "feeType",
+        "type": "string"
       },
       {
-        "internalType": "uint256[]",
-        "name": "amounts",
-        "type": "uint256[]"
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
       }
     ],
-    "name": "adminSetFees",
+    "name": "adminSetFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -540,16 +540,35 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "ignoreAddress",
+        "name": "freeAddress",
         "type": "address"
       }
     ],
-    "name": "getFeeIgnore",
+    "name": "getFeeFree",
     "outputs": [
       {
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "pool",
+        "type": "address"
+      }
+    ],
+    "name": "getPoolFees",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

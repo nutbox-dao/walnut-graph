@@ -81,30 +81,17 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "devFund",
+        "name": "oldDev",
         "type": "address"
       },
       {
         "indexed": true,
         "internalType": "address",
-        "name": "_dev",
+        "name": "newDev",
         "type": "address"
       }
     ],
     "name": "DevChanged",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "HarvestDev",
     "type": "event"
   },
   {
@@ -143,6 +130,25 @@
       }
     ],
     "name": "PoolUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "devFund",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "RevenueWithdrawn",
     "type": "event"
   },
   {
@@ -301,14 +307,14 @@
         "type": "address"
       }
     ],
-    "name": "resetDev",
+    "name": "adminSetDev",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "harvestDev",
+    "name": "adminWithdrawRevenue",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

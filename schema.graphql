@@ -47,6 +47,8 @@ type Community @entity {
     createdAt: BigInt!
     # owner of community
     owner: User!
+    # dao fund address
+    daoFund: Bytes!
     # community dao fund
     feeRatio: Int!
     # cToken address
@@ -126,6 +128,8 @@ enum UserOpertationHistoryType {
     ADMINADDPOOL
     ADMINCLOSEPOOL
     ADMINSETRATIO
+    ADMINSETDAOFUND
+    ADMINWITHDRAWNREVENUE
 }
 
 type UserOperationHistory @entity {
@@ -143,6 +147,7 @@ type UserOperationHistory @entity {
     # DEPOSIT/WITHDRAW: stake asset
     # HARVEST/HARVESTALL: community token
     # if this is from steem/hive delegate, it will be delegatee
+    # if revenue withdrawn, asset mean dao fund address
     asset: Bytes
     # operated asset amount
     amount: BigInt
