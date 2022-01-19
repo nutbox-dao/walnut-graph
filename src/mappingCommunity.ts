@@ -59,7 +59,7 @@ export function handleRevenueWithdrawn(event: RevenueWithdrawn): void {
     if (!community) {
         return;
     }
-    community.retainedReveue = community.retainedReveue.minus(event.params.amount);
+    community.retainedRevenue = community.retainedRevenue.minus(event.params.amount);
     createUserOp(event, "ADMINWITHDRAWNREVENUE", community, null, null, 0, event.params.devFund, null);
 }
 
@@ -69,7 +69,7 @@ export function handlePoolUpdated(event: PoolUpdated): void {
         return;
     }
     community.revenue = community.revenue.plus(event.params.amount);
-    community.retainedReveue = community.retainedReveue.plus(event.params.amount);
+    community.retainedRevenue = community.retainedRevenue.plus(event.params.amount);
     community.save();
 }
 
