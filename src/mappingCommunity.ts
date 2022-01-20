@@ -50,7 +50,7 @@ export function handleDevChanged(event: DevChanged): void {
     if (!community) {
         return;
     }
-    createUserOp(event, "ADMINSETDAOFUND", community, null, null, 0, null, null);
+    createUserOp(event, "ADMINSETDAOFUND", community, null, null, 0, event.params.newDev, null);
 }
 
 export function handleRevenueWithdrawn(event: RevenueWithdrawn): void {
@@ -58,7 +58,7 @@ export function handleRevenueWithdrawn(event: RevenueWithdrawn): void {
     if (!community) {
         return;
     }
-    createUserOp(event, "ADMINWITHDRAWNREVENUE", community, null, null, 0, event.params.devFund, null);
+    createUserOp(event, "ADMINWITHDRAWNREVENUE", community, null, null, 0, event.params.devFund, event.params.amount);
 }
 
 export function handlePoolUpdated(event: PoolUpdated): void {
