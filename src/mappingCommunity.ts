@@ -51,6 +51,7 @@ export function handleDevChanged(event: DevChanged): void {
         return;
     }
     createUserOp(event, "ADMINSETDAOFUND", community, null, null, 0, event.params.newDev, null);
+    community.daoFund = event.params.newDev;
 }
 
 export function handleRevenueWithdrawn(event: RevenueWithdrawn): void {
@@ -59,6 +60,7 @@ export function handleRevenueWithdrawn(event: RevenueWithdrawn): void {
         return;
     }
     createUserOp(event, "ADMINWITHDRAWNREVENUE", community, null, null, 0, event.params.devFund, event.params.amount);
+    community.retainedRevenue = community.retainedRevenue.minus(event.params.amount);
 }
 
 export function handlePoolUpdated(event: PoolUpdated): void {
@@ -67,6 +69,7 @@ export function handlePoolUpdated(event: PoolUpdated): void {
         return;
     }
     community.revenue = community.revenue.plus(event.params.amount);
+    community.retainedRevenue = community.retainedRevenue.plus(event.params.amount);
     community.save();
 }
 
