@@ -6,9 +6,9 @@ dataSources:
     name: Committee
     network: chapel
     source:
-      address: "0x061396e85554D473F5497BB65E05B093b131c4d6"
+      address: "0x7CEAD62ec76a4bF7AD4447455465AFE26fFe2d40"
       abi: Committee
-      startBlock: 16628992
+      startBlock: 16652245
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -30,9 +30,9 @@ dataSources:
     name: CommunityFactory
     network: chapel
     source:
-      address: "0xD0c1B34b4f7EA34ECD15829b39124c096D79a218"
+      address: "0xA47EC6C4fb0Acc390e14CD5776Ea9A49AD5d1fe4"
       abi: CommunityFactory
-      startBlock: 16628992
+      startBlock: 16652245
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -51,9 +51,9 @@ dataSources:
     name: ERC20StakingFactory
     network: chapel
     source:
-      address: "0xC27b4Ab154318431cD926F3aE6cB846Af7294aB8"
+      address: "0x2b8e1ECE583B170c013aa4bf3d831f4b8Ea539E1"
       abi: ERC20StakingFactory
-      startBlock: 16628992
+      startBlock: 16652245
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -71,9 +71,9 @@ dataSources:
     name: SPStakingFactory
     network: chapel
     source:
-      address: "0x6e77E0f5750C29951281D77d12239FfF439a7eae"
+      address: "0x8c13857eeA5E658D02733e238414C45a8A3eaC87"
       abi: SPStakingFactory
-      startBlock: 16628992
+      startBlock: 16652245
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5

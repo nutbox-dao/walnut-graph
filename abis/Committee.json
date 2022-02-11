@@ -99,6 +99,19 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "gauge",
+        "type": "address"
+      }
+    ],
+    "name": "AdminSetGauge",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "nut",
         "type": "address"
       }
@@ -380,6 +393,19 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "_gauge",
+        "type": "address"
+      }
+    ],
+    "name": "adminSetGauge",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "recipient",
         "type": "address"
       },
@@ -441,6 +467,19 @@
   {
     "inputs": [],
     "name": "getTreasury",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getGauge",
     "outputs": [
       {
         "internalType": "address",

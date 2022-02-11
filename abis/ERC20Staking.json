@@ -72,19 +72,6 @@
   },
   {
     "inputs": [],
-    "name": "community",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "name",
     "outputs": [
       {
@@ -151,6 +138,19 @@
   {
     "inputs": [],
     "name": "getFactory",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getCommunity",
     "outputs": [
       {
         "internalType": "address",

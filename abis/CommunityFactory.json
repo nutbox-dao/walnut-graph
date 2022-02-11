@@ -36,53 +36,6 @@
     "type": "event"
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "symbol",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "supply",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          }
-        ],
-        "indexed": false,
-        "internalType": "struct CommunityFactory.TokenProperties",
-        "name": "properties",
-        "type": "tuple"
-      }
-    ],
-    "name": "ERC20TokenCreated",
-    "type": "event"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -90,7 +43,7 @@
         "type": "address"
       }
     ],
-    "name": "calculators",
+    "name": "createdCommunity",
     "outputs": [
       {
         "internalType": "bool",
@@ -104,36 +57,24 @@
   {
     "inputs": [
       {
+        "internalType": "bool",
+        "name": "isMintable",
+        "type": "bool"
+      },
+      {
         "internalType": "address",
         "name": "communityToken",
         "type": "address"
       },
       {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "symbol",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "supply",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct CommunityFactory.TokenProperties",
-        "name": "properties",
-        "type": "tuple"
+        "internalType": "address",
+        "name": "communityTokenFactory",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "tokenMeta",
+        "type": "bytes"
       },
       {
         "internalType": "address",
