@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Committee
-    network: mbase
+    network: chapel
     source:
-      address: "0x0bAA558e21CCb7b394DcBf0832A18D7c5927804F"
+      address: "0x061396e85554D473F5497BB65E05B093b131c4d6"
       abi: Committee
-      startBlock: 1676895
+      startBlock: 16628992
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -28,11 +28,11 @@ dataSources:
       file: ./src/mappingCommittee.ts
   - kind: ethereum/contract
     name: CommunityFactory
-    network: mbase
+    network: chapel
     source:
-      address: "0x7A8Cf428FEA867F45a5f8810e3e71bFF055Df396"
+      address: "0xD0c1B34b4f7EA34ECD15829b39124c096D79a218"
       abi: CommunityFactory
-      startBlock: 1676895
+      startBlock: 16628992
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -49,11 +49,11 @@ dataSources:
       file: ./src/mappingCommunityFactory.ts
   - kind: ethereum/contract
     name: ERC20StakingFactory
-    network: mbase
+    network: chapel
     source:
-      address: "0x7Ca26632B4D9Ba763D78f657Ef86AEa1A5a221b3"
+      address: "0xC27b4Ab154318431cD926F3aE6cB846Af7294aB8"
       abi: ERC20StakingFactory
-      startBlock: 1676895
+      startBlock: 16628992
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -69,11 +69,11 @@ dataSources:
       file: ./src/mappingERC20StakingFactory.ts
   - kind: ethereum/contract
     name: SPStakingFactory
-    network: mbase
+    network: chapel
     source:
-      address: "0x811DDDB1C40de20741fb3d3FF320B47A2d13Ebc3"
+      address: "0x6e77E0f5750C29951281D77d12239FfF439a7eae"
       abi: SPStakingFactory
-      startBlock: 1676895
+      startBlock: 16628992
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -90,7 +90,7 @@ dataSources:
 templates:
   - name: CommunityTemplate
     kind: ethereum/contract
-    network: mbase
+    network: chapel
     source:
       abi: Community
     mapping:
@@ -123,7 +123,7 @@ templates:
       file: ./src/mappingCommunity.ts
   - name: ERC20StakingTemplate
     kind: ethereum/contract
-    network: mbase
+    network: chapel
     source:
       abi: ERC20Staking
     mapping:
@@ -145,7 +145,7 @@ templates:
       file: ./src/mappingERC20Staking.ts
   - name: SPStakingTemplate
     kind: ethereum/contract
-    network: mbase
+    network: chapel
     source:
       abi: SPStaking
     mapping:
