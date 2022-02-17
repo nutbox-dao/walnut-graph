@@ -89,9 +89,9 @@ type Pool @entity {
     community: Community!
     # pool ratio
     ratio: Int!
-    # staked asset  address ，delegatee
+    # staked asset  address ，delegatee, cosmos delgatee
     asset: Bytes!
-    # foreign chain id steem：1  hive：2
+    # foreign chain id steem：1  hive：2 cosmos: 3
     chainId: Int
     # totalStakedAmount
     totalAmount: BigInt!
