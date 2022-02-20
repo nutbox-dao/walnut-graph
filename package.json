@@ -7,6 +7,7 @@
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ terryyyyyyy/walnutingoerli",
     "deploy-goerli": "graph deploy --product hosted-service terryyyyyy/walnutingoerli",
     "deploy-bsct": "graph deploy --product hosted-service terryyyyyy/walnutinbsct",
+    "deploy-bsc": "graph deploy --product hosted-service terryyyyyy/walnutinbsc",
     "deploy-chapel": "graph deploy --product hosted-service terryyyyyy/walnutinchapel",
     "deploy-mbase": "graph deploy --product hosted-service terryyyyyy/walnutinmbase",
     "create-local": "graph create --node http://localhost:8020/ terryyyyyyy/walnutingoerli",
