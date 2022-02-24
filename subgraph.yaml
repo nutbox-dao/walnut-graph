@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Committee
-    network: bsc
+    network: astar
     source:
-      address: "0xd10e4C1e301A13A9B874bd1757c135Eda075769D"
+      address: "0xF7Fa41BF814eDC767691DDB1864a334D83f4acf7"
       abi: Committee
-      startBlock: 15414978
+      startBlock: 480225
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -28,11 +28,11 @@ dataSources:
       file: ./src/mappingCommittee.ts
   - kind: ethereum/contract
     name: CommunityFactory
-    network: bsc
+    network: astar
     source:
-      address: "0x1A4EeE210Bc54a75D25989546F648474EdF1C0A3"
+      address: "0x6ab448C1C6e1870602d3FB867F167029bbFb3181"
       abi: CommunityFactory
-      startBlock: 15414978
+      startBlock: 480225
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -49,11 +49,11 @@ dataSources:
       file: ./src/mappingCommunityFactory.ts
   - kind: ethereum/contract
     name: ERC20StakingFactory
-    network: bsc
+    network: astar
     source:
-      address: "0xf870724476912057C807056b29c1161f5Fe0199a"
+      address: "0x00ad4C61403455731C685cC71D9a406c5fcB8D69"
       abi: ERC20StakingFactory
-      startBlock: 15414978
+      startBlock: 480225
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -67,30 +67,10 @@ dataSources:
         - event: "ERC20StakingCreated(indexed address,indexed address,string,address)"
           handler: handleERC20StakingCreated
       file: ./src/mappingERC20StakingFactory.ts
-  - kind: ethereum/contract
-    name: SPStakingFactory
-    network: bsc
-    source:
-      address: "0xF7Fa41BF814eDC767691DDB1864a334D83f4acf7"
-      abi: SPStakingFactory
-      startBlock: 15414978
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-      abis:
-        - name: SPStakingFactory
-          file: ./abis/SPStakingFactory.json
-      eventHandlers:
-        - event: "SPStakingCreated(indexed address,indexed address,string,uint8,bytes32)"
-          handler: handleSPStakingCreated
-      file: ./src/mappingSPStakingFactory.ts
 templates:
   - name: CommunityTemplate
     kind: ethereum/contract
-    network: bsc
+    network: astar
     source:
       abi: Community
     mapping:
@@ -123,7 +103,7 @@ templates:
       file: ./src/mappingCommunity.ts
   - name: ERC20StakingTemplate
     kind: ethereum/contract
-    network: bsc
+    network: astar
     source:
       abi: ERC20Staking
     mapping:
@@ -143,23 +123,3 @@ templates:
         - event: Withdrawn(indexed address,indexed address,uint256)
           handler: handleWithdrawn
       file: ./src/mappingERC20Staking.ts
-  - name: SPStakingTemplate
-    kind: ethereum/contract
-    network: bsc
-    source:
-      abi: SPStaking
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-        - User
-        - UserOperationHistory
-      abis: 
-        - name: SPStaking
-          file: ./abis/SPStaking.json
-      eventHandlers:
-        - event: UpdateStaking(indexed address,indexed address,uint256,uint256)
-          handler: handleUpdateStaking
-      file: ./src/mappingSPStaking.ts
