@@ -12,7 +12,7 @@
     "deploy-mbase": "graph deploy --product hosted-service terryyyyyy/walnutinmbase",
     "create-local": "graph create --node http://localhost:8020/ terryyyyyyy/walnutingoerli",
     "remove-local": "graph remove --node http://localhost:8020/ terryyyyyyy/walnutingoerli",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 terryyyyyyy/walnutingoerli"
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 terryyyyyyy/walnutinastar"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.23.2",
