@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Committee
-    network: bsc
+    network: goerli
     source:
-      address: "0x116C1F8c11c041F5e095B35593cD28C438410096"
+      address: "0x971e67D40DE7D9d432c37BD33Fc8F17891f849FF"
       abi: Committee
-      startBlock: 6454311
+      startBlock: 6472157
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -27,12 +27,44 @@ dataSources:
           handler: handleNewAppropriation
       file: ./src/mappingCommittee.ts
   - kind: ethereum/contract
-    name: CommunityFactory
-    network: bsc
+    name: Gauge
+    network: goerli
     source:
-      address: "0x15a0055165Fa2d2b64758380FbF8FaF8f016F422"
+      address: "0x0369D2A66534493e4Dc09dC2BdF8fF01c4d8367B"
+      abi: Gauge
+      startBlock: 6472157
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Community
+        - CommunityManageHistory
+        - Pool
+      abis:
+        - name: Gauge
+          file: ./abis/Gauge.json
+      eventHandlers:
+        - event: "CreateNewGauge(indexed address,indexed address,indexed address)"
+          handler: handleGaugeCreated
+        - event: "Voted(indexed address,indexed address,indexed address,address,uint256)"
+          handler: handleVoted
+        - event: "Unvoted(indexed address,indexed address,indexed address,address,uint256)"
+          handler: handleUnvoted
+        - event: "CTokenWithdrawn(indexed address,indexed address,uint256)"
+          handler: handleCTokenWithdrawn
+        - event: "UserWithdrewNut(indexed address,indexed address,uint256)"
+          handler: handleUserWithdrewNut
+        - event: "CommunityWithdrewNut(indexed address,indexed address,uint256)"
+          handler: handleCommunityWithdrewNut
+      file: ./src/mappingGauge.ts
+  - kind: ethereum/contract
+    name: CommunityFactory
+    network: goerli
+    source:
+      address: "0xB8700748e5Ff2E536841C7db9ABc15998A71C543"
       abi: CommunityFactory
-      startBlock: 6454311
+      startBlock: 6472157
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -49,11 +81,11 @@ dataSources:
       file: ./src/mappingCommunityFactory.ts
   - kind: ethereum/contract
     name: ERC20StakingFactory
-    network: bsc
+    network: goerli
     source:
-      address: "0x1BcAf6B35521ac89259d5625B1BfBc157fbd034E"
+      address: "0x8F5bc032CED83F87214093ca3871369D2004D97f"
       abi: ERC20StakingFactory
-      startBlock: 6454311
+      startBlock: 6472157
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -69,11 +101,11 @@ dataSources:
       file: ./src/mappingERC20StakingFactory.ts
   - kind: ethereum/contract
     name: SPStakingFactory
-    network: bsc
+    network: goerli
     source:
-      address: "0x0C1B497295925F2a8985B5834554C87B5BB5D9C1"
+      address: "0xa91c943fDa447D650F5F22BeF846F6916D5F84d6"
       abi: SPStakingFactory
-      startBlock: 6454311
+      startBlock: 6472157
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -91,9 +123,9 @@ dataSources:
     name: CosmosStakingFactory
     network: goerli
     source:
-      address: "0xf6ecAAd3F991C911253FB887f9d68B9DD41429B0"
+      address: "0xBF2Fd8Ca75D4784950A4C8Ee450fC8705713E6E7"
       abi: CosmosStakingFactory
-      startBlock: 6454311
+      startBlock: 6472157
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -110,7 +142,7 @@ dataSources:
 templates:
   - name: CommunityTemplate
     kind: ethereum/contract
-    network: bsc
+    network: goerli
     source:
       abi: Community
     mapping:
@@ -143,7 +175,7 @@ templates:
       file: ./src/mappingCommunity.ts
   - name: ERC20StakingTemplate
     kind: ethereum/contract
-    network: bsc
+    network: goerli
     source:
       abi: ERC20Staking
     mapping:
@@ -165,7 +197,7 @@ templates:
       file: ./src/mappingERC20Staking.ts
   - name: SPStakingTemplate
     kind: ethereum/contract
-    network: bsc
+    network: goerli
     source:
       abi: SPStaking
     mapping:
