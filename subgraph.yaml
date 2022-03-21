@@ -6,9 +6,9 @@ dataSources:
     name: Committee
     network: goerli
     source:
-      address: "0x855d44dd7Ac700E8bdfB06182Cb51d7465229D80"
+      address: "0xd63fF0c26f14Aa9f1Dc05549736Dc19d2Ec077C8"
       abi: Committee
-      startBlock: 6552080
+      startBlock: 6574721
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -30,9 +30,9 @@ dataSources:
     name: Gauge
     network: goerli
     source:
-      address: "0x8efE3AEb7fe65CB6D837f24f22e5dDB1203bBd38"
+      address: "0xCc524797adEB3471eF85482489d97759085270c0"
       abi: Gauge
-      startBlock: 6552080
+      startBlock: 6574721
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -62,9 +62,9 @@ dataSources:
     name: CommunityFactory
     network: goerli
     source:
-      address: "0x5572DA2Bb9036b59A0b770B72d46671EA5C3F61B"
+      address: "0x2d9ee8ade5411E404DACD9212B82C4466479e078"
       abi: CommunityFactory
-      startBlock: 6552080
+      startBlock: 6574721
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -83,9 +83,9 @@ dataSources:
     name: ERC20StakingFactory
     network: goerli
     source:
-      address: "0x8b6C7e5B79927223b46550725f0195fc778231BE"
+      address: "0x38e847AF9b546336caf3ba10f65C125C95B1d93F"
       abi: ERC20StakingFactory
-      startBlock: 6552080
+      startBlock: 6574721
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -103,9 +103,9 @@ dataSources:
     name: SPStakingFactory
     network: goerli
     source:
-      address: "0x3dF2B8FA0bc4270ac62AF010e70bB9234aD67dac"
+      address: "0x2b924ED31eD8680bEF8B89D9cd9104DAF2eC4f01"
       abi: SPStakingFactory
-      startBlock: 6552080
+      startBlock: 6574721
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -123,9 +123,9 @@ dataSources:
     name: CosmosStakingFactory
     network: goerli
     source:
-      address: "0xc54EeC4807D980d3E566d06e91c1152573956947"
+      address: "0x2B8b2c28CD4b05288e6EcC41312D42b59Af3e24a"
       abi: CosmosStakingFactory
-      startBlock: 6552080
+      startBlock: 6574721
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
