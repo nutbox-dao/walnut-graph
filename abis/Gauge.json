@@ -469,7 +469,7 @@
   },
   {
     "inputs": [],
-    "name": "totalNPLocked",
+    "name": "totalLockedNP",
     "outputs": [
       {
         "internalType": "uint256",
@@ -758,7 +758,7 @@
         "type": "address"
       }
     ],
-    "name": "getGaugeTotalLocked",
+    "name": "getLockedNpInGauge",
     "outputs": [
       {
         "internalType": "uint256",
