@@ -6,9 +6,9 @@ dataSources:
     name: Committee
     network: goerli
     source:
-      address: "0xd63fF0c26f14Aa9f1Dc05549736Dc19d2Ec077C8"
+      address: "0x5288DA783695DAb739ab5e1d7BF0d4920667809B"
       abi: Committee
-      startBlock: 6574721
+      startBlock: 6625402
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -30,9 +30,9 @@ dataSources:
     name: Gauge
     network: goerli
     source:
-      address: "0xCc524797adEB3471eF85482489d97759085270c0"
+      address: "0x306fb5447FCE4960E74cD28C22a1A7627cae678F"
       abi: Gauge
-      startBlock: 6574721
+      startBlock: 6625402
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -62,9 +62,9 @@ dataSources:
     name: CommunityFactory
     network: goerli
     source:
-      address: "0x2d9ee8ade5411E404DACD9212B82C4466479e078"
+      address: "0x6c999d6C30B2016611eBBbFA53793d2522A66250"
       abi: CommunityFactory
-      startBlock: 6574721
+      startBlock: 6625402
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -83,9 +83,9 @@ dataSources:
     name: ERC20StakingFactory
     network: goerli
     source:
-      address: "0x38e847AF9b546336caf3ba10f65C125C95B1d93F"
+      address: "0x1AC355145e523C1295D5AB8cC6f37087E286B94E"
       abi: ERC20StakingFactory
-      startBlock: 6574721
+      startBlock: 6625402
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -103,9 +103,9 @@ dataSources:
     name: SPStakingFactory
     network: goerli
     source:
-      address: "0x2b924ED31eD8680bEF8B89D9cd9104DAF2eC4f01"
+      address: "0x6383b535e7EC5f24aC1e9cf32fca6cbFa8fD251B"
       abi: SPStakingFactory
-      startBlock: 6574721
+      startBlock: 6625402
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -123,7 +123,7 @@ dataSources:
     name: CosmosStakingFactory
     network: goerli
     source:
-      address: "0x74790fF941A91881Af152a3e6649C34EDC6646cd"
+      address: "0x1E2f12267D587c571ba147193DB94ED64C7e269f"
       abi: CosmosStakingFactory
       startBlock: 6625227
     mapping:
