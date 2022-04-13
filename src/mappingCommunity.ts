@@ -164,7 +164,12 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
      if (!inCommunities.includes(communityId)){
         inCommunities.push(communityId);
         user.inCommunities = inCommunities;
+     }
+     let usersOfCommunity = community.users;
+     if (!usersOfCommunity.includes(ownerId)){
+         usersOfCommunity.push(ownerId);
         community.usersCount += 1;
+        community.users = usersOfCommunity;
      }
      user.save();
      community.save();
