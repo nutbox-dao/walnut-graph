@@ -142,6 +142,11 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
     const community = getCommunity(event);
     if (!community) return;
+    let previousOwnerId = event.params.previousOwner.toHex();
+    // ignore the event of first transfer
+    if (previousOwnerId == "0x0000000000000000000000000000000000000000") {
+        return;
+    }
     let ownerId = event.params.newOwner.toHex();
     let user = User.load(ownerId);
     let walnut = getWalnut();
