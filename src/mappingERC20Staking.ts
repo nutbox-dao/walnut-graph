@@ -1,7 +1,7 @@
 import { Pool, Community, User, UserOperationHistory } from '../generated/schema'
 import { Deposited, Withdrawn } from '../generated/templates/ERC20StakingTemplate/ERC20Staking'
 import { getWalnut } from './mappingCommittee'
-import { Bytes, ByteArray, ethereum, BigInt, log } from '@graphprotocol/graph-ts';
+import { Bytes, ethereum, BigInt, log } from '@graphprotocol/graph-ts';
 
 export function handleDeposited(event: Deposited): void {
     let communityId = event.params.community.toHex();
@@ -92,12 +92,12 @@ function createUserOp(event: ethereum.Event, type: string, community: Community,
     op.amount = amount;
     op.timestamp = event.block.timestamp;
     op.tx = event.transaction.hash;
-    op.save();
 
     let user = User.load(userb.toHex());
     if(!user) {
         return;
     }
+    op.save();
     let userOps = user.operationHistory;
     userOps.push(opId);
     user.operationHistory = userOps;

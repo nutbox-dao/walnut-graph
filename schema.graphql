@@ -21,6 +21,8 @@ type Walnut @entity {
     totalUsers: Int!
     # all pools counts
     totalPools: Int!
+    # all gauge counts
+    totalGauges: Int!
 }
 
 type FeeHistory @entity {
@@ -101,6 +103,15 @@ type Pool @entity {
     stakers: [User!]!
     # all user count
     stakersCount: Int!
+    # gauge
+    # 0: not create gauge; 1: create gauge
+    hasCreateGauge: Int!
+    # all voter list
+    voters: [User!]!
+    # all voter count
+    votersCount: Int!
+    # total voted amount
+    votedAmount: BigInt!
 }
 
 enum PoolStatus {
@@ -114,6 +125,7 @@ type User @entity {
     address: Bytes!
     inCommunities: [Community!]!
     inPools: [Pool!]!
+    inGauges: [Pool!]!
     # all user's operate history
     operationHistory: [UserOperationHistory!]!
     # total operation counts
@@ -125,6 +137,10 @@ enum UserOpertationHistoryType {
     WITHDRAW
     HARVEST
     HARVESTALL
+    VOTE
+    UNVOTE
+    WITHDRAWGAUGECTOKEN
+    WITHDRAWGAUGENUT
     ADMINCREATE
     ADMINSETFEE
     ADMINADDPOOL
@@ -132,6 +148,8 @@ enum UserOpertationHistoryType {
     ADMINSETRATIO
     ADMINSETDAOFUND
     ADMINWITHDRAWNREVENUE
+    ADMINCREATENEWGAUGE
+    ADMINWITHDRAWGAUGENUT
 }
 
 type UserOperationHistory @entity {

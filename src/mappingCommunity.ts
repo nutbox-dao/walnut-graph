@@ -9,8 +9,9 @@ import {
     DevChanged,
     RevenueWithdrawn
 } from '../generated/templates/CommunityTemplate/Community'
+import { getWalnut } from './mappingCommittee'
 import { ethereum, BigInt, log, Bytes, ByteArray } from "@graphprotocol/graph-ts";
-import { SPStakingFactory, ERC20StakingFactory } from "./contracts"
+import { SPStakingFactory, ERC20StakingFactory, CosmosStakingFactory } from "./contracts"
 
 export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
     let community = getCommunity(event);
@@ -106,7 +107,7 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
         let pool = Pool.load(event.params.pool[0].toHex());
         if (pool) {
             stakingHistory.poolFactory = pool.poolFactory;
-            if (pool.poolFactory == SPStakingFactory) {
+            if (pool.poolFactory == SPStakingFactory || pool.poolFactory == CosmosStakingFactory) {
                 stakingHistory.chainId == pool.chainId;
             } else if (pool.poolFactory == ERC20StakingFactory) {
 
@@ -141,8 +142,37 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
     const community = getCommunity(event);
     if (!community) return;
-    community.owner = event.params.newOwner.toHex();
-    community.save();
+    let previousOwnerId = event.params.previousOwner.toHex();
+    // ignore the event of first transfer
+    if (previousOwnerId == "0x0000000000000000000000000000000000000000") {
+        return;
+    }
+    let ownerId = event.params.newOwner.toHex();
+    let user = User.load(ownerId);
+    let walnut = getWalnut();
+    if (!user) {
+        user = new User(ownerId);
+        user.createdAt = event.block.timestamp;
+        user.address = event.params.newOwner;
+        walnut.totalUsers += 1;
+        walnut.save();
+    }
+    community.owner = ownerId;
+    let communityId = event.address.toHex();
+     // add community to user's community list
+     let inCommunities = user.inCommunities;
+     if (!inCommunities.includes(communityId)){
+        inCommunities.push(communityId);
+        user.inCommunities = inCommunities;
+     }
+     let usersOfCommunity = community.users;
+     if (!usersOfCommunity.includes(ownerId)){
+         usersOfCommunity.push(ownerId);
+        community.usersCount += 1;
+        community.users = usersOfCommunity;
+     }
+     user.save();
+     community.save();
 }
 
 function getCommunity(event: ethereum.Event): Community | null {

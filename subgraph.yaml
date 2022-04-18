@@ -87,6 +87,26 @@ dataSources:
         - event: "SPStakingCreated(indexed address,indexed address,string,uint8,bytes32)"
           handler: handleSPStakingCreated
       file: ./src/mappingSPStakingFactory.ts
+  - kind: ethereum/contract
+    name: CosmosStakingFactory
+    network: bsc
+    source:
+      address: "0xAD6a0c0017559d051264e1657d627107d6b12f0d"
+      abi: CosmosStakingFactory
+      startBlock: 17041110
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+      abis:
+        - name: CosmosStakingFactory
+          file: ./abis/CosmosStakingFactory.json
+      eventHandlers:
+        - event: "CosmosStakingCreated(indexed address,indexed address,string,uint8,address)"
+          handler: handleCosmosStakingCreated
+      file: ./src/mappingCosmosStakingFactory.ts
 templates:
   - name: CommunityTemplate
     kind: ethereum/contract
@@ -163,3 +183,23 @@ templates:
         - event: UpdateStaking(indexed address,indexed address,uint256,uint256)
           handler: handleUpdateStaking
       file: ./src/mappingSPStaking.ts
+  - name: CosmosStakingTemplate
+    kind: ethereum/contract
+    network: bsc
+    source:
+      abi: CosmosStaking
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+        - User
+        - UserOperationHistory
+      abis: 
+        - name: CosmosStaking
+          file: ./abis/CosmosStaking.json
+      eventHandlers:
+        - event: UpdateStaking(indexed address,indexed address,uint256,uint256)
+          handler: handleUpdateStaking
+      file: ./src/mappingCosmosStaking.ts
