@@ -139,6 +139,26 @@ dataSources:
         - event: "CosmosStakingCreated(indexed address,indexed address,string,uint8,address)"
           handler: handleCosmosStakingCreated
       file: ./src/mappingCosmosStakingFactory.ts
+  - kind: ethereum/contract
+    name: ERC1155StakingFactory
+    network: goerli
+    source:
+      address: "0xaCe6Fb48F11fb8F43Db37Ae471fE0a4cD6a0e267"
+      abi: ERC1155StakingFactory
+      startBlock: 6625227
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+      abis:
+        - name: ERC1155StakingFactory
+          file: ./abis/ERC1155StakingFactory.json
+      eventHandlers:
+        - event: "ERC1155StakingCreated(indexed address,indexed address,string,indexed address,uint256)"
+          handler: handleERC1155StakingCreated
+      file: ./src/mappingERC1155StakingFactory.ts
 templates:
   - name: CommunityTemplate
     kind: ethereum/contract
@@ -235,3 +255,25 @@ templates:
         - event: UpdateStaking(indexed address,indexed address,uint256,uint256)
           handler: handleUpdateStaking
       file: ./src/mappingCosmosStaking.ts
+  - name: ERC1155StakingTemplate
+    kind: ethereum/contract
+    network: goerli
+    source:
+      abi: ERC1155Staking
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+        - User
+        - UserOperationHistory
+      abis: 
+        - name: ERC1155Staking
+          file: ./abis/ERC1155Staking.json
+      eventHandlers:
+        - event: Deposited(indexed address,indexed address,uint256)
+          handler: handleDeposited
+        - event: Withdrawn(indexed address,indexed address,uint256)
+          handler: handleWithdrawn
+      file: ./src/mappingERC1155Staking.ts
