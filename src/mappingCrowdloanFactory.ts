@@ -1,32 +1,34 @@
 import { Pool, Community, UserOperationHistory, User } from '../generated/schema';
-import { SPStakingCreated } from '../generated/SPStakingFactory/SPStakingFactory'
-import { SPStakingTemplate } from '../generated/templates'
+import { CrowdloanCreated } from '../generated/CrowdloanFactory/CrowdloanFactory'
+import { CrowdloanTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
-import { SPStakingFactory } from "./contracts"
+import { CrowdloanFactory } from "./contracts"
 import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
 
-// event SPStakingCreated(
+// event CrowdloanCreated(
 //     address indexed pool,
 //     address indexed community,
 //     string name,
 //     uint8 chainId,
-//     bytes32 delegatee
+//     uint256 paraId,
+//     uint256 fundIndex
 // );
-export function handleSPStakingCreated(event: SPStakingCreated): void {
+export function handleCrowdloanCreated(event: CrowdloanCreated): void {
     let walnut = getWalnut();
     let community = Community.load(event.params.community.toHex());
     if (!community){
         return;
     }
     // create new pool contract
-    log.info('[SPStakingFactory]: Create new pool:{} community:{} name:{} chainId:{} delegatee:{}', [
+    log.info('[CrowdloanFactory]: Create new pool:{} community:{} name:{} chainId:{} paraId:{} fundIndex: {}', [
         event.params.pool.toHex(),
         event.params.community.toHex(),
         event.params.name.toString(),
         event.params.chainId.toString(),
-        event.params.delegatee.toHex()
+        event.params.paraId.toString(),
+        event.params.fundIndex.toString()
     ])
-    SPStakingTemplate.create(event.params.pool);
+    CrowdloanTemplate.create(event.params.pool);
     let poolId = event.params.pool.toHex();
     let pool = Pool.load(poolId);
     if (!pool) {
@@ -35,9 +37,11 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     pool.createdAt = event.block.timestamp;
     pool.status = 'OPENED';
     pool.name = event.params.name;
-    pool.poolFactory = SPStakingFactory;
+    pool.poolFactory = CrowdloanFactory;
     pool.community = event.params.community.toHex();
-    pool.asset = event.params.delegatee;
+    pool.asset = Bytes.fromByteArray(ByteArray.fromBigInt(event.params.paraId));
+    pool.paraId = event.params.paraId;
+    pool.fundIndex = event.params.fundIndex;
     pool.chainId = event.params.chainId;
     pool.tvl = BigInt.zero();
     pool.save();

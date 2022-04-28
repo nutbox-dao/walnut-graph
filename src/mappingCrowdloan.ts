@@ -1,19 +1,19 @@
 import { Pool, Community, User, UserOperationHistory } from '../generated/schema'
-import { UpdateStaking } from '../generated/templates/SPStakingTemplate/SPStaking';
+import { Contributed } from '../generated/templates/CrowdloanTemplate/Crowdloan';
 import { getWalnut } from './mappingCommittee'
 
-// event UpdateStaking(
+// event Contribute(
 //     address indexed community,
 //     address indexed who,
-//     uint256 previousAmount,
-//     uint256 newAmount
+//     uint256 newAmount,
+//     uint256 totalAmount
 // );
-export function handleUpdateStaking(event: UpdateStaking): void {
+export function handleContributed(event: Contributed): void {
     let communityId = event.params.community.toHex();
     let poolId = event.address.toHex();
     let userId = event.params.who.toHex();
-    let previousAmount = event.params.previousAmount;
     let newAmount = event.params.newAmount;
+    let totalAmount = event.params.totalAmount;
     let community = Community.load(communityId);
     let pool = Pool.load(poolId);
     let user = User.load(userId);
@@ -66,26 +66,19 @@ export function handleUpdateStaking(event: UpdateStaking): void {
         userCommunity.push(communityId);
         user.inCommunities = userCommunity;
     }
-    let isDeposit = false;
-    // update pool total amount
-    if (newAmount > previousAmount) {
-        isDeposit = true;
-        pool.totalAmount = pool.totalAmount.plus(newAmount.minus(previousAmount));
-    } else {
-        pool.totalAmount = pool.totalAmount.minus(previousAmount.minus(newAmount));
-    }
 
+    pool.totalAmount = pool.totalAmount.plus(totalAmount);
 
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let stakingHistory = new UserOperationHistory(opId);
     stakingHistory.community = communityId;
     stakingHistory.user =  event.params.who;
-    stakingHistory.type = isDeposit ? 'DEPOSIT' : "WITHDRAW";
+    stakingHistory.type = 'DEPOSIT';
     stakingHistory.pool = event.address.toHex();
     stakingHistory.poolFactory = pool.poolFactory;
     stakingHistory.chainId = pool.chainId;
     stakingHistory.asset = pool.asset;
-    stakingHistory.amount = isDeposit ? newAmount.minus(previousAmount) : previousAmount.minus(newAmount);
+    stakingHistory.amount = newAmount;
     stakingHistory.timestamp = event.block.timestamp;
     stakingHistory.tx = event.transaction.hash;
     let historys = user.operationHistory;

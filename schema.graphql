@@ -89,9 +89,12 @@ type Pool @entity {
     community: Community!
     # pool ratio
     ratio: Int!
-    # staked asset  address ，delegatee, cosmos delgatee
+    # staked asset address ，delegatee, cosmos delgatee
     asset: Bytes!
-    # foreign chain id steem：1  hive：2 cosmos: 3
+    # paraId and fundIndex is for crowdloan
+    paraId: BigInt!
+    fundIndex: BigInt!
+    # foreign chain id polkadot: 0  kusama：2
     chainId: Int
     # totalStakedAmount
     totalAmount: BigInt!

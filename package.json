@@ -10,9 +10,9 @@
     "deploy-bsc": "graph deploy --product hosted-service terryyyyyy/walnutinbsc",
     "deploy-chapel": "graph deploy --product hosted-service terryyyyyy/walnutinchapel",
     "deploy-mbase": "graph deploy --product hosted-service terryyyyyy/walnutinmbase",
-    "create-local": "graph create --node http://localhost:8020/ terryyyyyyy/walnutinastar",
-    "remove-local": "graph remove --node http://localhost:8020/ terryyyyyyy/walnutingoerli",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 terryyyyyyy/walnutinastar"
+    "create-local": "graph create --node http://localhost:8020/ terry/walnutinshibuya",
+    "remove-local": "graph remove --node http://localhost:8020/ terry/walnutinshibuya",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 terry/walnutinshibuya"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.23.2",

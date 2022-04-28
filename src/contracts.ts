@@ -1,5 +1,5 @@
 import { Bytes, ByteArray } from '@graphprotocol/graph-ts';
 
-export const Committee: Bytes            =     Bytes.fromByteArray(ByteArray.fromHexString("0xF7Fa41BF814eDC767691DDB1864a334D83f4acf7"));
-export const SPStakingFactory: Bytes     =     Bytes.fromByteArray(ByteArray.fromHexString('0xF7Fa41BF814eDC767691DDB1864a334D83f4acf7'));
-export const ERC20StakingFactory: Bytes  =     Bytes.fromByteArray(ByteArray.fromHexString('0x00ad4C61403455731C685cC71D9a406c5fcB8D69'));
+export const Committee: Bytes            =     Bytes.fromByteArray(ByteArray.fromHexString("0x6FDC6807e92e495e779d1881B2Fc5Ae63B56D207"));
+export const ERC20StakingFactory: Bytes  =     Bytes.fromByteArray(ByteArray.fromHexString('0x2422551A4a179D3632855614371A1f2207a17Cb7'));
+export const CrowdloanFactory: Bytes     =     Bytes.fromByteArray(ByteArray.fromHexString('0xB513A1858e9A1443bd28495ba3338BFaa6Fe7B36'));
