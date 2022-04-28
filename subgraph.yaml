@@ -143,7 +143,7 @@ dataSources:
     name: ERC1155StakingFactory
     network: goerli
     source:
-      address: "0xaCe6Fb48F11fb8F43Db37Ae471fE0a4cD6a0e267"
+      address: "0xE3E39F2C35C52330D3462Ce961C3d177153D1352"
       abi: ERC1155StakingFactory
       startBlock: 6625227
     mapping:
