@@ -27,6 +27,27 @@ dataSources:
           handler: handleNewAppropriation
       file: ./src/mappingCommittee.ts
   - kind: ethereum/contract
+    name: TreasuryFactory
+    network: goerli
+    source:
+      address: "0x8428aD36744a9917112c2A9a40C4f48FCF80e39E"
+      abi: TreasuryFactory
+      startBlock: 6625402
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Community
+        - CommunityManageHistory
+      abis:
+        - name: TreasuryFactory
+          file: ./abis/TreasuryFactory.json
+      eventHandlers:
+        - event: "NewTreasuryCreated(indexed address,indexed address)"
+          handler: handleNewTreasury
+      file: ./src/mappingTreasuryFactory.ts
+  - kind: ethereum/contract
     name: Gauge
     network: goerli
     source:
@@ -277,3 +298,22 @@ templates:
         - event: Withdrawn(indexed address,indexed address,uint256)
           handler: handleWithdrawn
       file: ./src/mappingERC1155Staking.ts
+  - name: TreasuryTemplate
+    kind: ethereum/contract
+    network: goerli
+    source:
+      abi: Treasury
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - UserOperationHistory
+      abis: 
+        - name: Treasury
+          file: ./abis/Treasury.json
+      eventHandlers:
+        - event: Redeem(indexed address,indexed address,indexed uint256)
+          handler: handleRedeem
+      file: ./src/mappingTreasury.ts
