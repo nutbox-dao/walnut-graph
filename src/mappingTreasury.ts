@@ -36,7 +36,6 @@ export function handleRedeem(event: Redeem): void {
         userCommunity.push(communityId);
         user.inCommunities = userCommunity;
     }
-    let isDeposit = false;
 
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let stakingHistory = new UserOperationHistory(opId);
