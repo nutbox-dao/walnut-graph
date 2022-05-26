@@ -91,7 +91,7 @@ dataSources:
     name: AstarDappStakingFactory
     network: shibuya
     source:
-      address: "0xbBAc3A06eB1918EfC33af78e83E9A3b2D9fe81f3"
+      address: "0x2715aaeF6294BCCa56A86273114583500CA47363"
       abi: AstarDappStakingFactory
       startBlock: 1512267
     mapping:
