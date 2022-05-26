@@ -30,7 +30,7 @@ dataSources:
     name: CommunityFactory
     network: shibuya
     source:
-      address: "0x6B70dCfA3E14f532C8C9cB113558254464760023"
+      address: "0xE7e2A7994D86Ae51F6Fc614e01EC3229C8f62b6B"
       abi: CommunityFactory
       startBlock: 1512267
     mapping:
