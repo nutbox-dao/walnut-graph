@@ -55,6 +55,8 @@ type Community @entity {
     feeRatio: Int!
     # cToken address
     cToken: Bytes!
+    # treasury address
+    treasury: Bytes!
     # total distributed ctoken amount
     distributedCToken: BigInt!
     # total dao fund
@@ -150,6 +152,8 @@ enum UserOpertationHistoryType {
     ADMINWITHDRAWNREVENUE
     ADMINCREATENEWGAUGE
     ADMINWITHDRAWGAUGENUT
+    REDEEMFROMTREASURY
+    ADMINCREATETREASURY
 }
 
 type UserOperationHistory @entity {
