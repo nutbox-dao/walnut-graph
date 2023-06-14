@@ -16,5 +16,5 @@ graph codegen && graph build
 ### Deploy
 ```bash
 graph auth --product hosted-service [your-key]
-graph deploy --product hosted-service [your-page]
+graph deploy --product hosted-service [name/subgraph]
 ```
