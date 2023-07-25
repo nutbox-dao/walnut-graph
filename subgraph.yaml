@@ -159,6 +159,26 @@ dataSources:
         - event: "ERC1155StakingCreated(indexed address,indexed address,string,indexed address,uint256)"
           handler: handleERC1155StakingCreated
       file: ./src/mappingERC1155StakingFactory.ts
+  - kind: ethereum/contract
+    name: CurationGaugeFactory
+    network: arbitrum-one
+    source:
+      address: "0xFc9AF0eF1bB4673ad48ee477dF231Cc3286e1464"
+      abi: CurationGaugeFactory
+      startBlock: 114710992
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+      abis:
+        - name: CurationGaugeFactory
+          file: ./abis/CurationGaugeFactory.json
+      eventHandlers:
+        - event: "CurationGaugeCreated(indexed address,indexed address,string,indexed address)"
+          handler: handleCurationGaugeCreated
+      file: ./src/mappingCurationGaugeFactory.ts
 templates:
   - name: CommunityTemplate
     kind: ethereum/contract
@@ -277,3 +297,27 @@ templates:
         - event: Withdrawn(indexed address,indexed address,uint256)
           handler: handleWithdrawn
       file: ./src/mappingERC1155Staking.ts
+  - name: CurationGaugeTemplate
+    kind: ethereum/contract
+    network: arbitrum-one
+    source:
+      abi: CurationGauge
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+        - User
+        - UserOperationHistory
+      abis: 
+        - name: CurationGauge
+          file: ./abis/CurationGauge.json
+      eventHandlers:
+        - event: PoolStarted()
+          handler: handlePoolStarted
+        - event: ChangeRecipient(indexed address,indexed address)
+          handler: handleChangeRecipient
+        - event: WithdrawRewardsToRecipient(indexed uint256)
+          handler: handleWithdrawRewardsToRecipient
+      file: ./src/mappingCurationGauge.ts

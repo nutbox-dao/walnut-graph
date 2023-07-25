@@ -11,7 +11,7 @@ import {
 } from '../generated/templates/CommunityTemplate/Community'
 import { getWalnut } from './mappingCommittee'
 import { ethereum, BigInt, log, Bytes, ByteArray } from "@graphprotocol/graph-ts";
-import { SPStakingFactory, ERC20StakingFactory, CosmosStakingFactory } from "./contracts"
+import { SPStakingFactory, ERC20StakingFactory, CosmosStakingFactory, CurationGaugeFactory } from "./contracts"
 
 export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
     let community = getCommunity(event);
@@ -107,7 +107,7 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
         let pool = Pool.load(event.params.pool[0].toHex());
         if (pool) {
             stakingHistory.poolFactory = pool.poolFactory;
-            if (pool.poolFactory == SPStakingFactory || pool.poolFactory == CosmosStakingFactory) {
+            if (pool.poolFactory == SPStakingFactory || pool.poolFactory == CosmosStakingFactory || pool.poolFactory == CurationGaugeFactory) {
                 stakingHistory.chainId == pool.chainId;
             } else if (pool.poolFactory == ERC20StakingFactory) {
 
