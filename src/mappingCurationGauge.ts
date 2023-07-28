@@ -25,7 +25,7 @@ export function handlePoolStarted(event: PoolStarted): void {
         pool.stakersCount += 1;
     }
     // update total amount 
-    pool.totalAmount = new BigInt(1);
+    pool.totalAmount = BigInt.fromI32(1);
     pool.save();
 
     user.save();
@@ -52,7 +52,7 @@ export function handleChangeRecipient(event: ChangeRecipient): void {
     if(!user){
         return;
     }
-    createUserOp(event, 'CURATIONGAUGECHANGERECEIPIENT', community, pool.poolFactory, pool, Bytes.fromByteArray(ByteArray.fromHexString(userId)), 0, newRecipient, amount);
+    createUserOp(event, 'ADMINCHANGECURATIONRECIPIENT', community, pool.poolFactory, pool, Bytes.fromByteArray(ByteArray.fromHexString(userId)), 0, newRecipient, amount);
 }
 
 export function handleWithdrawRewardsToRecipient(event: WithdrawRewardsToRecipient): void {
