@@ -33,7 +33,7 @@ export function handlePoolStarted(event: PoolStarted): void {
     // set pool addres as a user, no need to config user operation and community info and pool info to this pool user
     let poolAsUser = new User(poolId);
     poolAsUser.createdAt = event.block.timestamp;
-    user.address = event.address;
+    poolAsUser.address = event.address;
     poolAsUser.save();
     
     createUserOp(event, 'STARTCURATIONGAUGE', community, pool.poolFactory, pool, event.address, 0, pool.asset, new BigInt(1));
