@@ -318,6 +318,4 @@ templates:
           handler: handlePoolStarted
         - event: ChangeRecipient(indexed address,indexed address)
           handler: handleChangeRecipient
-        - event: WithdrawRewardsToRecipient(indexed uint256)
-          handler: handleWithdrawRewardsToRecipient
       file: ./src/mappingCurationGauge.ts
