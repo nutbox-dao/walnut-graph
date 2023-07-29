@@ -29,6 +29,12 @@ export function handlePoolStarted(event: PoolStarted): void {
     pool.save();
 
     user.save();
+
+    // set pool addres as a user, no need to config user operation and community info and pool info to this pool user
+    let poolAsUser = new User(poolId);
+    poolAsUser.createdAt = event.block.timestamp;
+    user.address = event.address;
+    poolAsUser.save();
     
     createUserOp(event, 'STARTCURATIONGAUGE', community, pool.poolFactory, pool, event.address, 0, pool.asset, new BigInt(1));
 }
@@ -40,6 +46,7 @@ export function handleChangeRecipient(event: ChangeRecipient): void {
     if(!pool) {
         return;
     }
+    pool.asset = newRecipient;
     let communityId = pool.community;
     let community = Community.load(communityId);
     if (!community){
@@ -52,11 +59,8 @@ export function handleChangeRecipient(event: ChangeRecipient): void {
     if(!user){
         return;
     }
+    pool.save();
     createUserOp(event, 'ADMINCHANGECURATIONRECIPIENT', community, pool.poolFactory, pool, Bytes.fromByteArray(ByteArray.fromHexString(userId)), 0, newRecipient, amount);
-}
-
-export function handleWithdrawRewardsToRecipient(event: WithdrawRewardsToRecipient): void {
-
 }
 
 function createUserOp(event: ethereum.Event, type: string, community: Community, poolFactory: Bytes | null, pool: Pool, userb: Bytes, chainId: u32, asset: Bytes | null, amount: BigInt | null): void {
