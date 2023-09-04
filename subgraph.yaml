@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Committee
-    network: bsc
+    network: base
     source:
-      address: "0xd10e4C1e301A13A9B874bd1757c135Eda075769D"
+      address: "0xa965a23fF72805576002a0971a38A22a0c715A86"
       abi: Committee
-      startBlock: 15414978
+      startBlock: 3503613
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -28,11 +28,11 @@ dataSources:
       file: ./src/mappingCommittee.ts
   - kind: ethereum/contract
     name: Gauge
-    network: bsc
+    network: base
     source:
-      address: "0x6F2686B34D23dCbf79a33A2EEA5e92d84b942d91"
+      address: "0xF21649D901A082772Bd7B5d5eD5039C7a43A5789"
       abi: Gauge
-      startBlock: 17048009
+      startBlock: 3503613
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -60,11 +60,11 @@ dataSources:
       file: ./src/mappingGauge.ts
   - kind: ethereum/contract
     name: CommunityFactory
-    network: bsc
+    network: base
     source:
-      address: "0x1A4EeE210Bc54a75D25989546F648474EdF1C0A3"
+      address: "0xFe992EF5f73Ac289052F1742B918278a62686fD1"
       abi: CommunityFactory
-      startBlock: 15414978
+      startBlock: 3503613
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -81,11 +81,11 @@ dataSources:
       file: ./src/mappingCommunityFactory.ts
   - kind: ethereum/contract
     name: ERC20StakingFactory
-    network: bsc
+    network: base
     source:
-      address: "0xf870724476912057C807056b29c1161f5Fe0199a"
+      address: "0x5A95D35579C3aaF7F1df86540286A9DD90506F00"
       abi: ERC20StakingFactory
-      startBlock: 15414978
+      startBlock: 3503613
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -101,11 +101,11 @@ dataSources:
       file: ./src/mappingERC20StakingFactory.ts
   - kind: ethereum/contract
     name: SPStakingFactory
-    network: bsc
+    network: base
     source:
-      address: "0xF7Fa41BF814eDC767691DDB1864a334D83f4acf7"
+      address: "0x420E3b63F2587702B0BCdc50aF948cF387515593"
       abi: SPStakingFactory
-      startBlock: 15414978
+      startBlock: 3503613
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -121,11 +121,11 @@ dataSources:
       file: ./src/mappingSPStakingFactory.ts
   - kind: ethereum/contract
     name: CosmosStakingFactory
-    network: bsc
+    network: base
     source:
-      address: "0xAD6a0c0017559d051264e1657d627107d6b12f0d"
+      address: "0x20ABc409b7dc7a6DC8cC1309A5A7DBb5B1c0D014"
       abi: CosmosStakingFactory
-      startBlock: 17041110
+      startBlock: 3503613
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -141,11 +141,11 @@ dataSources:
       file: ./src/mappingCosmosStakingFactory.ts
   - kind: ethereum/contract
     name: ERC1155StakingFactory
-    network: bsc
+    network: base
     source:
-      address: "0x76303Be21ef601e68639B541B035ca33d247b5FE"
+      address: "0x8d7F753D3b3862169d9eee500de3F7220103eAAd"
       abi: ERC1155StakingFactory
-      startBlock: 18764271
+      startBlock: 3503613
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.5
@@ -162,7 +162,7 @@ dataSources:
 templates:
   - name: CommunityTemplate
     kind: ethereum/contract
-    network: bsc
+    network: base
     source:
       abi: Community
     mapping:
@@ -195,7 +195,7 @@ templates:
       file: ./src/mappingCommunity.ts
   - name: ERC20StakingTemplate
     kind: ethereum/contract
-    network: bsc
+    network: base
     source:
       abi: ERC20Staking
     mapping:
@@ -217,7 +217,7 @@ templates:
       file: ./src/mappingERC20Staking.ts
   - name: SPStakingTemplate
     kind: ethereum/contract
-    network: bsc
+    network: base
     source:
       abi: SPStaking
     mapping:
@@ -237,7 +237,7 @@ templates:
       file: ./src/mappingSPStaking.ts
   - name: CosmosStakingTemplate
     kind: ethereum/contract
-    network: bsc
+    network: base
     source:
       abi: CosmosStaking
     mapping:
@@ -257,7 +257,7 @@ templates:
       file: ./src/mappingCosmosStaking.ts
   - name: ERC1155StakingTemplate
     kind: ethereum/contract
-    network: bsc
+    network: base
     source:
       abi: ERC1155Staking
     mapping:

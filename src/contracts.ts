@@ -1,7 +1,7 @@
 import { Bytes, ByteArray } from '@graphprotocol/graph-ts';
 
-export const Committee: Bytes            =     Bytes.fromByteArray(ByteArray.fromHexString("0xd10e4C1e301A13A9B874bd1757c135Eda075769D"));
-export const SPStakingFactory: Bytes     =     Bytes.fromByteArray(ByteArray.fromHexString('0xF7Fa41BF814eDC767691DDB1864a334D83f4acf7'));
-export const ERC20StakingFactory: Bytes  =     Bytes.fromByteArray(ByteArray.fromHexString('0xf870724476912057C807056b29c1161f5Fe0199a'));
-export const CosmosStakingFactory: Bytes =     Bytes.fromByteArray(ByteArray.fromHexString('0xAD6a0c0017559d051264e1657d627107d6b12f0d'));
-export const ERC1155StakingFactory: Bytes =     Bytes.fromByteArray(ByteArray.fromHexString('0x76303Be21ef601e68639B541B035ca33d247b5FE'));
+export const Committee: Bytes            =     Bytes.fromByteArray(ByteArray.fromHexString("0xa965a23fF72805576002a0971a38A22a0c715A86"));
+export const SPStakingFactory: Bytes     =     Bytes.fromByteArray(ByteArray.fromHexString('0x420E3b63F2587702B0BCdc50aF948cF387515593'));
+export const ERC20StakingFactory: Bytes  =     Bytes.fromByteArray(ByteArray.fromHexString('0x5A95D35579C3aaF7F1df86540286A9DD90506F00'));
+export const CosmosStakingFactory: Bytes =     Bytes.fromByteArray(ByteArray.fromHexString('0x20ABc409b7dc7a6DC8cC1309A5A7DBb5B1c0D014'));
+export const ERC1155StakingFactory: Bytes =     Bytes.fromByteArray(ByteArray.fromHexString('0x8d7F753D3b3862169d9eee500de3F7220103eAAd'));
