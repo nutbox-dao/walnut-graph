@@ -2,6 +2,8 @@ import { Pool, Community, User, UserOperationHistory } from '../generated/schema
 import { PoolStarted, ChangeRecipient, WithdrawRewardsToRecipient } from '../generated/templates/CurationGaugeTemplate/CurationGauge'
 import { getWalnut } from './mappingCommittee'
 import { Bytes, ethereum, BigInt, log, ByteArray } from '@graphprotocol/graph-ts';
+import { getOpCount } from './utils'
+
 
 export function handlePoolStarted(event: PoolStarted): void {
     let poolId = event.address.toHex();
@@ -66,6 +68,8 @@ export function handleChangeRecipient(event: ChangeRecipient): void {
 function createUserOp(event: ethereum.Event, type: string, community: Community, poolFactory: Bytes | null, pool: Pool, userb: Bytes, chainId: u32, asset: Bytes | null, amount: BigInt | null): void {
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let op = new UserOperationHistory(opId);
+    let index = getOpCount();
+    op.index = index;
     op.type = type;
     op.community = community.id;
     op.poolFactory = poolFactory;

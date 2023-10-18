@@ -2,6 +2,8 @@ import { Pool, Community, User, UserOperationHistory } from '../generated/schema
 import { Deposited, Withdrawn } from '../generated/templates/ERC20StakingTemplate/ERC20Staking'
 import { getWalnut } from './mappingCommittee'
 import { Bytes, ethereum, BigInt, log } from '@graphprotocol/graph-ts';
+import { getOpCount } from './utils'
+
 
 export function handleDeposited(event: Deposited): void {
     let communityId = event.params.community.toHex();
@@ -82,6 +84,8 @@ export function handleWithdrawn(event: Withdrawn): void {
 function createUserOp(event: ethereum.Event, type: string, community: Community, poolFactory: Bytes | null, pool: Pool, userb: Bytes, chainId: u32, asset: Bytes | null, amount: BigInt | null): void {
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let op = new UserOperationHistory(opId);
+    let index = getOpCount();
+    op.index = index;
     op.type = type;
     op.community = community.id;
     op.poolFactory = poolFactory;

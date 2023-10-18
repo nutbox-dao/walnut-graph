@@ -4,6 +4,7 @@ import { SPStakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { SPStakingFactory } from "./contracts"
 import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
+import { getOpCount } from './utils'
 
 // event SPStakingCreated(
 //     address indexed pool,
@@ -50,6 +51,8 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     // add community and pool operator history
     let historyId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
     let communityHistory = new UserOperationHistory(historyId);
+    let index = getOpCount();
+    communityHistory.index = index;
     communityHistory.type = "ADMINADDPOOL";
     communityHistory.community = community.id;
     communityHistory.poolFactory = pool.poolFactory;

@@ -3,7 +3,7 @@ import { Community, User, UserOperationHistory } from '../generated/schema'
 import { CommunityCreated } from '../generated/CommunityFactory/CommunityFactory'
 import { getWalnut } from './mappingCommittee'
 import { log } from '@graphprotocol/graph-ts'
-
+import { getOpCount } from './utils'
 
 export function handleCommunityCreated(event: CommunityCreated): void {
     let walnut = getWalnut();
@@ -34,6 +34,8 @@ export function handleCommunityCreated(event: CommunityCreated): void {
     // add community create op to community
     let opId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toHexString();
     let communityop = new UserOperationHistory(opId);
+    let index = getOpCount();
+    communityop.index = index;
     communityop.type = "ADMINCREATE";
     communityop.tx = event.transaction.hash;
     communityop.timestamp = event.block.timestamp;

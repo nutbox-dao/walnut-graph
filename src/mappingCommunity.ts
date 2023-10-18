@@ -12,6 +12,7 @@ import {
 import { getWalnut } from './mappingCommittee'
 import { ethereum, BigInt, log, Bytes, ByteArray } from "@graphprotocol/graph-ts";
 import { SPStakingFactory, ERC20StakingFactory, CosmosStakingFactory, CurationGaugeFactory } from "./contracts"
+import { getOpCount } from './utils'
 
 export function handleAdminSetFeeRatio(event: AdminSetFeeRatio): void {
     let community = getCommunity(event);
@@ -116,7 +117,9 @@ export function handleWithdrawRewards(event: WithdrawRewards): void {
     } else {
         stakingHistory.type = "HARVESTALL";
     }
+    let index = getOpCount();
     stakingHistory.user = event.params.who;
+    stakingHistory.index = index;
     stakingHistory.chainId = 0;
     stakingHistory.asset = community.cToken;
     stakingHistory.amount = event.params.amount;
@@ -184,7 +187,9 @@ function getCommunity(event: ethereum.Event): Community | null {
 function createUserOp(event: ethereum.Event, type: string, community: Community, poolFactory: Bytes | null, pool: Pool | null, chainId: u32, asset: Bytes | null, amount: BigInt | null): void {
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let op = new UserOperationHistory(opId);
+    let index = getOpCount();
     op.type = type;
+    op.index = index;
     op.community = community.id;
     op.poolFactory = poolFactory;
     op.pool = pool ? pool.id : null;

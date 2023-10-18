@@ -158,8 +158,14 @@ enum UserOpertationHistoryType {
     ADMINCHANGECURATIONRECIPIENT
 }
 
+type Counter @entity {
+    id: ID!
+    index: BigInt!
+}
+
 type UserOperationHistory @entity {
     id: ID!
+    index: BigInt!
     type: UserOpertationHistoryType!
     community: Community!
     # pool factory contract

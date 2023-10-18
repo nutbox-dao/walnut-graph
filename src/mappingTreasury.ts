@@ -1,6 +1,7 @@
 import { Pool, Community, User, UserOperationHistory } from '../generated/schema'
 import { Redeem } from '../generated/templates/TreasuryTemplate/Treasury';
 import { getWalnut } from './mappingCommittee'
+import { getOpCount } from './utils'
 
 export function handleRedeem(event: Redeem): void {
     let communityId = event.params.community.toHex();
@@ -39,6 +40,8 @@ export function handleRedeem(event: Redeem): void {
 
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let stakingHistory = new UserOperationHistory(opId);
+    let index = getOpCount();
+    stakingHistory.index = index;
     stakingHistory.community = communityId;
     stakingHistory.user =  event.params.user;
     stakingHistory.asset = treasuryId;
