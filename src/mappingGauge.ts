@@ -2,6 +2,8 @@ import { Community, User, UserOperationHistory, Pool } from '../generated/schema
 import { Voted, Unvoted, CreateNewGauge, CTokenWithdrawn, UserWithdrewNut, CommunityWithdrewNut } from '../generated/Gauge/Gauge'
 import { getWalnut } from './mappingCommittee'
 import { Bytes, ByteArray, ethereum, BigInt, log } from '@graphprotocol/graph-ts';
+import { getOpCount } from './utils'
+
 
 //    event CreateNewGauge(address indexed community, address indexed factory, address indexed pool);
 export function handleGaugeCreated(event: CreateNewGauge): void {
@@ -204,6 +206,8 @@ export function handleCommunityWithdrewNut(event: CommunityWithdrewNut): void {
 function createUserOp(event: ethereum.Event, type: string, community: Community, poolFactory: Bytes | null, pool: Pool | null, userb: Bytes, chainId: u32, asset: Bytes | null, amount: BigInt | null): void {
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let op = new UserOperationHistory(opId);
+    let index = getOpCount();
+    op.index = index;
     op.type = type;
     op.community = community.id;
     op.poolFactory = poolFactory;

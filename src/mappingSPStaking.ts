@@ -1,6 +1,8 @@
 import { Pool, Community, User, UserOperationHistory } from '../generated/schema'
 import { UpdateStaking } from '../generated/templates/SPStakingTemplate/SPStaking';
 import { getWalnut } from './mappingCommittee'
+import { getOpCount } from './utils'
+
 
 // event UpdateStaking(
 //     address indexed community,
@@ -78,6 +80,8 @@ export function handleUpdateStaking(event: UpdateStaking): void {
 
     let opId = event.transaction.hash.toHex().concat('-').concat(event.transactionLogIndex.toString());
     let stakingHistory = new UserOperationHistory(opId);
+    let index = getOpCount();
+    stakingHistory.index = index;
     stakingHistory.community = communityId;
     stakingHistory.user =  event.params.who;
     stakingHistory.type = isDeposit ? 'DEPOSIT' : "WITHDRAW";

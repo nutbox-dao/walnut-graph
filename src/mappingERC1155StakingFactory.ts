@@ -4,7 +4,7 @@ import { ERC1155StakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { ERC1155StakingFactory } from "./contracts"
 import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
-import { formatOddString } from './utils'
+import { formatOddString, getOpCount } from './utils'
 
 // event ERC1155StakingCreated(
 //     address indexed pool,
@@ -52,6 +52,8 @@ export function handleERC1155StakingCreated(event: ERC1155StakingCreated): void 
     // add community and pool operator history
     let historyId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
     let communityHistory = new UserOperationHistory(historyId);
+    let index = getOpCount();
+    communityHistory.index = index;
     communityHistory.type = "ADMINADDPOOL";
     communityHistory.community = community.id;
     communityHistory.poolFactory = pool.poolFactory;

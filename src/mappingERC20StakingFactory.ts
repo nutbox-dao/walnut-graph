@@ -4,6 +4,8 @@ import { ERC20StakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { ERC20StakingFactory } from "./contracts"
 import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
+import { getOpCount } from './utils'
+
 
 // event ERC20StakingCreated(
 //     address indexed pool,
@@ -48,6 +50,8 @@ export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
     // add community and pool operator history
     let historyId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toString();
     let communityHistory = new UserOperationHistory(historyId);
+    let index = getOpCount();
+    communityHistory.index = index;
     communityHistory.type = "ADMINADDPOOL";
     communityHistory.community = community.id;
     communityHistory.poolFactory = pool.poolFactory;

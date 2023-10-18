@@ -1,33 +1,33 @@
 import { Pool, Community, UserOperationHistory, User } from '../generated/schema';
-import { SPStakingCreated } from '../generated/SPStakingFactory/SPStakingFactory'
-import { SPStakingTemplate } from '../generated/templates'
+import { CurationGaugeCreated } from '../generated/CurationGaugeFactory/CurationGaugeFactory'
+import { CurationGaugeTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
-import { SPStakingFactory } from "./contracts"
-import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
+import { CurationGaugeFactory } from "./contracts"
+import { BigInt, log, ByteArray, Bytes, Address } from '@graphprotocol/graph-ts';
 import { getOpCount } from './utils'
 
-// event SPStakingCreated(
+
+// event CurationGaugeCreated(
 //     address indexed pool,
 //     address indexed community,
 //     string name,
-//     uint8 chainId,
-//     bytes32 delegatee
+//     address indexed recipient
 // );
-export function handleSPStakingCreated(event: SPStakingCreated): void {
+export function handleCurationGaugeCreated(event: CurationGaugeCreated): void {
     let walnut = getWalnut();
     let community = Community.load(event.params.community.toHex());
     if (!community){
         return;
     }
     // create new pool contract
-    log.info('[SPStakingFactory]: Create new pool:{} community:{} name:{} chainId:{} delegatee:{}', [
+    log.info('[CurationGaugeFactory]: Create new pool:{} community:{} name:{} recipient:{} ', [
         event.params.pool.toHex(),
         event.params.community.toHex(),
         event.params.name.toString(),
-        event.params.chainId.toString(),
-        event.params.delegatee.toHex()
+        event.params.recipient.toHex()
     ])
-    SPStakingTemplate.create(event.params.pool);
+    
+    CurationGaugeTemplate.create(event.params.pool);
     let poolId = event.params.pool.toHex();
     let pool = Pool.load(poolId);
     if (!pool) {
@@ -36,16 +36,16 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     pool.createdAt = event.block.timestamp;
     pool.status = 'OPENED';
     pool.name = event.params.name;
-    pool.poolFactory = SPStakingFactory;
+    pool.poolFactory = CurationGaugeFactory;
     pool.community = event.params.community.toHex();
-    pool.asset = event.params.delegatee;
-    pool.chainId = event.params.chainId;
+    pool.asset = event.params.recipient;
     pool.tvl = BigInt.zero();
     pool.save();
+    
     // add pool to community
     let pools = community.pools;
-    community.poolsCount++;
     pools.push(pool.id);
+    community.poolsCount++;
     community.pools = pools;
 
     // add community and pool operator history
@@ -58,8 +58,10 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     communityHistory.poolFactory = pool.poolFactory;
     communityHistory.pool = pool.id;
     communityHistory.user = Bytes.fromByteArray(ByteArray.fromHexString(community.owner));
+
     communityHistory.tx = event.transaction.hash;
     communityHistory.timestamp = event.block.timestamp;
+
     communityHistory.save();
     
     let historys = community.operationHistory;
@@ -69,7 +71,7 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     community.save();
 
     let user = User.load(community.owner);
-    if(!user) {
+    if (!user) {
         return;
     }
     historys = user.operationHistory;
@@ -77,6 +79,13 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     user.operationHistory = historys;
     user.operationCount++;
     user.save();
+
+    // add new stake asset
+    // let allAssets = walnut.stakeAssets;
+    // if (!allAssets.includes(pool.asset)){
+    //     allAssets.push(pool.asset);
+    //     walnut.stakeAssets = allAssets;
+    // }
 
     walnut.totalPools += 1;
     walnut.save();

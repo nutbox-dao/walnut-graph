@@ -2,7 +2,7 @@ import { Community, User, UserOperationHistory } from '../generated/schema'
 import { NewTreasuryCreated } from '../generated/TreasuryFactory/TreasuryFactory'
 import { TreasuryTemplate } from '../generated/templates'
 import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
-
+import { getOpCount } from './utils'
 
 export function handleNewTreasury(event: NewTreasuryCreated): void {
     let communityId:string = event.params.community.toHexString();
@@ -27,6 +27,8 @@ export function handleNewTreasury(event: NewTreasuryCreated): void {
     // add community create op to community
     let opId = event.transaction.hash.toHex() + '-' + event.transactionLogIndex.toHexString();
     let communityop = new UserOperationHistory(opId);
+    let index = getOpCount();
+    communityop.index = index;
     communityop.type = "ADMINCREATETREASURY";
     communityop.tx = event.transaction.hash;
     communityop.timestamp = event.block.timestamp;
