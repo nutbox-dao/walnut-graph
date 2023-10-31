@@ -100,6 +100,26 @@ dataSources:
           handler: handleERC20StakingCreated
       file: ./src/mappingERC20StakingFactory.ts
   - kind: ethereum/contract
+    name: TaxedERC20StakingFactory
+    network: base
+    source:
+      address: "0x9C2804015b55D02F0cBeDa1ee8a9c24Ee7aF00d7"
+      abi: TaxedERC20StakingFactory
+      startBlock: 5976605
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+      abis:
+        - name: TaxedERC20StakingFactory
+          file: ./abis/TaxedERC20StakingFactory.json
+      eventHandlers:
+        - event: "TaxedERC20StakingCreated(indexed address,indexed address,string,address)"
+          handler: handleTaxedERC20StakingCreated
+      file: ./src/mappingTaxedERC20StakingFactory.ts
+  - kind: ethereum/contract
     name: SPStakingFactory
     network: base
     source:
@@ -215,6 +235,28 @@ templates:
         - event: Withdrawn(indexed address,indexed address,uint256)
           handler: handleWithdrawn
       file: ./src/mappingERC20Staking.ts
+  - name: TaxedERC20StakingTemplate
+    kind: ethereum/contract
+    network: base
+    source:
+      abi: TaxedERC20Staking
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Pool
+        - User
+        - UserOperationHistory
+      abis: 
+        - name: TaxedERC20Staking
+          file: ./abis/TaxedERC20Staking.json
+      eventHandlers:
+        - event: Deposited(indexed address,indexed address,uint256)
+          handler: handleDeposited
+        - event: Withdrawn(indexed address,indexed address,uint256)
+          handler: handleWithdrawn
+      file: ./src/mappingTaxedERC20Staking.ts
   - name: SPStakingTemplate
     kind: ethereum/contract
     network: base

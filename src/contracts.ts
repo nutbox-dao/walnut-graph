@@ -4,4 +4,5 @@ export const Committee: Bytes            =     Bytes.fromByteArray(ByteArray.fro
 export const SPStakingFactory: Bytes     =     Bytes.fromByteArray(ByteArray.fromHexString('0x420E3b63F2587702B0BCdc50aF948cF387515593'));
 export const ERC20StakingFactory: Bytes  =     Bytes.fromByteArray(ByteArray.fromHexString('0x5A95D35579C3aaF7F1df86540286A9DD90506F00'));
 export const CosmosStakingFactory: Bytes =     Bytes.fromByteArray(ByteArray.fromHexString('0x20ABc409b7dc7a6DC8cC1309A5A7DBb5B1c0D014'));
-export const ERC1155StakingFactory: Bytes =     Bytes.fromByteArray(ByteArray.fromHexString('0x8d7F753D3b3862169d9eee500de3F7220103eAAd'));
+export const ERC1155StakingFactory: Bytes =    Bytes.fromByteArray(ByteArray.fromHexString('0x8d7F753D3b3862169d9eee500de3F7220103eAAd'));
+export const TaxedERC20StakingFactory:Bytes =  Bytes.fromByteArray(ByteArray.fromHexString('0x9C2804015b55D02F0cBeDa1ee8a9c24Ee7aF00d7'));
