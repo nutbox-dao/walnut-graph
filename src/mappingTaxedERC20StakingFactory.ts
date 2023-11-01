@@ -13,7 +13,7 @@ import { getOpCount } from './utils'
 //     string name,
 //     address erc20Token
 // );
-export function handleERC20StakingCreated(event: TaxedERC20StakingCreated): void {
+export function handleTaxedERC20StakingCreated(event: TaxedERC20StakingCreated): void {
     let walnut = getWalnut();
     let community = Community.load(event.params.community.toHex());
     if (!community){
