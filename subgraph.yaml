@@ -100,11 +100,11 @@ dataSources:
           handler: handleERC20StakingCreated
       file: ./src/mappingERC20StakingFactory.ts
   - kind: ethereum/contract
-    name: SPStakingFactory
+    name: ETHStakingFactory
     network: arbitrum-one
     source:
       address: "0x37921DB31E88e80AC43fD285AE60230065b9E87C"
-      abi: SPStakingFactory
+      abi: ETHStakingFactory
       startBlock: 100955064
     mapping:
       kind: ethereum/contract
@@ -113,72 +113,12 @@ dataSources:
       entities:
         - Pool
       abis:
-        - name: SPStakingFactory
-          file: ./abis/SPStakingFactory.json
+        - name: ETHStakingFactory
+          file: ./abis/ETHStakingFactory.json
       eventHandlers:
-        - event: "SPStakingCreated(indexed address,indexed address,string,uint8,bytes32)"
-          handler: handleSPStakingCreated
-      file: ./src/mappingSPStakingFactory.ts
-  - kind: ethereum/contract
-    name: CosmosStakingFactory
-    network: arbitrum-one
-    source:
-      address: "0x8Ea8870001216429f72CEA80fEE576dfe883E5bD"
-      abi: CosmosStakingFactory
-      startBlock: 100955064
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-      abis:
-        - name: CosmosStakingFactory
-          file: ./abis/CosmosStakingFactory.json
-      eventHandlers:
-        - event: "CosmosStakingCreated(indexed address,indexed address,string,uint8,address)"
-          handler: handleCosmosStakingCreated
-      file: ./src/mappingCosmosStakingFactory.ts
-  - kind: ethereum/contract
-    name: ERC1155StakingFactory
-    network: arbitrum-one
-    source:
-      address: "0xBab99d73D20DE32D0f674dA58390b4C904654C19"
-      abi: ERC1155StakingFactory
-      startBlock: 100955064
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-      abis:
-        - name: ERC1155StakingFactory
-          file: ./abis/ERC1155StakingFactory.json
-      eventHandlers:
-        - event: "ERC1155StakingCreated(indexed address,indexed address,string,indexed address,uint256)"
-          handler: handleERC1155StakingCreated
-      file: ./src/mappingERC1155StakingFactory.ts
-  - kind: ethereum/contract
-    name: CurationGaugeFactory
-    network: arbitrum-one
-    source:
-      address: "0xFc9AF0eF1bB4673ad48ee477dF231Cc3286e1464"
-      abi: CurationGaugeFactory
-      startBlock: 114710992
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-      abis:
-        - name: CurationGaugeFactory
-          file: ./abis/CurationGaugeFactory.json
-      eventHandlers:
-        - event: "CurationGaugeCreated(indexed address,indexed address,string,indexed address)"
-          handler: handleCurationGaugeCreated
-      file: ./src/mappingCurationGaugeFactory.ts
+        - event: "ETHStakingCreated(indexed address,indexed address,string)"
+          handler: handleETHStakingCreated
+      file: ./src/mappingETHStakingFactory.ts
 templates:
   - name: CommunityTemplate
     kind: ethereum/contract
@@ -235,11 +175,11 @@ templates:
         - event: Withdrawn(indexed address,indexed address,uint256)
           handler: handleWithdrawn
       file: ./src/mappingERC20Staking.ts
-  - name: SPStakingTemplate
+  - name: ETHStakingTemplate
     kind: ethereum/contract
     network: arbitrum-one
     source:
-      abi: SPStaking
+      abi: ETHStaking
     mapping:
       kind: ethereum/contract
       apiVersion: 0.0.6
@@ -249,73 +189,11 @@ templates:
         - User
         - UserOperationHistory
       abis: 
-        - name: SPStaking
-          file: ./abis/SPStaking.json
-      eventHandlers:
-        - event: UpdateStaking(indexed address,indexed address,uint256,uint256)
-          handler: handleUpdateStaking
-      file: ./src/mappingSPStaking.ts
-  - name: CosmosStakingTemplate
-    kind: ethereum/contract
-    network: arbitrum-one
-    source:
-      abi: CosmosStaking
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-        - User
-        - UserOperationHistory
-      abis: 
-        - name: CosmosStaking
-          file: ./abis/CosmosStaking.json
-      eventHandlers:
-        - event: UpdateStaking(indexed address,indexed address,uint256,uint256)
-          handler: handleUpdateStaking
-      file: ./src/mappingCosmosStaking.ts
-  - name: ERC1155StakingTemplate
-    kind: ethereum/contract
-    network: arbitrum-one
-    source:
-      abi: ERC1155Staking
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-        - User
-        - UserOperationHistory
-      abis: 
-        - name: ERC1155Staking
-          file: ./abis/ERC1155Staking.json
+        - name: ETHStaking
+          file: ./abis/ETHStaking.json
       eventHandlers:
         - event: Deposited(indexed address,indexed address,uint256)
           handler: handleDeposited
         - event: Withdrawn(indexed address,indexed address,uint256)
           handler: handleWithdrawn
-      file: ./src/mappingERC1155Staking.ts
-  - name: CurationGaugeTemplate
-    kind: ethereum/contract
-    network: arbitrum-one
-    source:
-      abi: CurationGauge
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-        - User
-        - UserOperationHistory
-      abis: 
-        - name: CurationGauge
-          file: ./abis/CurationGauge.json
-      eventHandlers:
-        - event: PoolStarted()
-          handler: handlePoolStarted
-        - event: ChangeRecipient(indexed address,indexed address)
-          handler: handleChangeRecipient
-      file: ./src/mappingCurationGauge.ts
+      file: ./src/mappingETHStaking.ts
