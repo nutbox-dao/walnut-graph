@@ -40,6 +40,7 @@ export function getWalnut(): Walnut {
     let walnut = Walnut.load(Committee.toHex());
     if (!walnut) {
         walnut = new Walnut(Committee.toHex());
+        walnut.tvl = new BigInt(0);
         walnut.stakeAssets = [];
         walnut.cTokens = [];
         walnut.revenue = new BigInt(0);
