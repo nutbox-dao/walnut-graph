@@ -56,7 +56,7 @@ type Community @entity {
     # cToken address
     cToken: Bytes!
     # treasury address
-    treasury: Bytes!
+    treasury: Bytes
     # total distributed ctoken amount
     distributedCToken: BigInt!
     # total dao fund
