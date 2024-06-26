@@ -28,6 +28,11 @@ export function handleUpdateStaking(event: UpdateStaking): void {
         user = new User(userId);
         user.createdAt = event.block.timestamp;
         user.address = event.params.who;
+        user.inCommunities = [];
+        user.inPools = [];
+        user.inGauges = [];
+        user.operationHistory = [];
+        user.operationCount = 0;
         walnut.totalUsers += 1;
         walnut.save();
         let comUsers = community.users;

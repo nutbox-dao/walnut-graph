@@ -5,6 +5,7 @@ import { getWalnut } from './mappingCommittee';
 import { SPStakingFactory } from "./contracts"
 import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
 
+let Zero = new BigInt(0);
 // event SPStakingCreated(
 //     address indexed pool,
 //     address indexed community,
@@ -31,6 +32,15 @@ export function handleSPStakingCreated(event: SPStakingCreated): void {
     let pool = Pool.load(poolId);
     if (!pool) {
         pool = new Pool(poolId);
+        pool.poolIndex = 0;
+        pool.ratio = 0;
+        pool.totalAmount = Zero;
+        pool.stakers = [];
+        pool.stakersCount = 0;
+        pool.hasCreateGauge = 0;
+        pool.voters = [];
+        pool.votersCount = 0;
+        pool.votedAmount = Zero;
     }
     pool.createdAt = event.block.timestamp;
     pool.status = 'OPENED';

@@ -56,6 +56,11 @@ export function handleVoted(event: Voted): void {
         user = new User(userId);
         user.createdAt = event.block.timestamp;
         user.address = event.params.user;
+        user.inCommunities = [];
+        user.inPools = [];
+        user.inGauges = [];
+        user.operationHistory = [];
+        user.operationCount = 0;
         walnut.totalUsers += 1;
         walnut.save();
     }
@@ -111,6 +116,11 @@ export function handleUnvoted(event: Unvoted): void {
         user = new User(userId);
         user.createdAt = event.block.timestamp;
         user.address = event.params.user;
+        user.inCommunities = [];
+        user.inPools = [];
+        user.inGauges = [];
+        user.operationHistory = [];
+        user.operationCount = 0;
         walnut.totalUsers += 1;
         walnut.save();
     }

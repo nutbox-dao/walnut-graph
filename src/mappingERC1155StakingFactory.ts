@@ -6,6 +6,7 @@ import { ERC1155StakingFactory } from "./contracts"
 import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
 import { formatOddString } from './utils'
 
+let Zero = new BigInt(0);
 // event ERC1155StakingCreated(
 //     address indexed pool,
 //     address indexed community,
@@ -32,6 +33,15 @@ export function handleERC1155StakingCreated(event: ERC1155StakingCreated): void 
     let pool = Pool.load(poolId);
     if (!pool) {
         pool = new Pool(poolId);
+        pool.poolIndex = 0;
+        pool.ratio = 0;
+        pool.totalAmount = Zero;
+        pool.stakers = [];
+        pool.stakersCount = 0;
+        pool.hasCreateGauge = 0;
+        pool.voters = [];
+        pool.votersCount = 0;
+        pool.votedAmount = Zero;
     }
     pool.createdAt = event.block.timestamp;
     pool.status = 'OPENED';

@@ -1,3 +1,4 @@
+import { BigInt } from '@graphprotocol/graph-ts';
 import { NewRevenue, NewAppropriation } from '../generated/Committee/Committee'
 import { Walnut, FeeHistory, AppropriationHistory } from '../generated/schema'
 import { Committee } from './contracts';
@@ -39,6 +40,17 @@ export function getWalnut(): Walnut {
     let walnut = Walnut.load(Committee.toHex());
     if (!walnut) {
         walnut = new Walnut(Committee.toHex());
+        walnut.stakeAssets = [];
+        walnut.cTokens = [];
+        walnut.revenue = new BigInt(0);
+        walnut.feeHistory = [];
+        walnut.propriationHistory = [];
+        walnut.communities = [];
+        walnut.totalCommunities = 0;
+        walnut.totalUsers = 0;
+        walnut.totalPools = 0;
+        walnut.totalGauges = 0;
+        walnut.save();
     }
     return walnut;
 }

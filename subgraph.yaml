@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 schema:
   file: ./schema.graphql
 dataSources:
@@ -11,7 +11,7 @@ dataSources:
       startBlock: 15414978
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Walnut
@@ -35,7 +35,7 @@ dataSources:
       startBlock: 17048009
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Community
@@ -67,7 +67,7 @@ dataSources:
       startBlock: 15414978
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Community
@@ -88,7 +88,7 @@ dataSources:
       startBlock: 15414978
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -108,7 +108,7 @@ dataSources:
       startBlock: 15414978
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -128,7 +128,7 @@ dataSources:
       startBlock: 17041110
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -148,7 +148,7 @@ dataSources:
       startBlock: 18764271
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -167,7 +167,7 @@ templates:
       abi: Community
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Community
@@ -200,7 +200,7 @@ templates:
       abi: ERC20Staking
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -222,7 +222,7 @@ templates:
       abi: SPStaking
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -242,7 +242,7 @@ templates:
       abi: CosmosStaking
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -262,7 +262,7 @@ templates:
       abi: ERC1155Staking
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool

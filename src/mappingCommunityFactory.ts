@@ -2,8 +2,9 @@ import { CommunityTemplate } from '../generated/templates'
 import { Community, User, UserOperationHistory } from '../generated/schema'
 import { CommunityCreated } from '../generated/CommunityFactory/CommunityFactory'
 import { getWalnut } from './mappingCommittee'
-import { log } from '@graphprotocol/graph-ts'
+import { BigInt, log } from '@graphprotocol/graph-ts'
 
+let Zero = new BigInt(0)
 
 export function handleCommunityCreated(event: CommunityCreated): void {
     let walnut = getWalnut();
@@ -17,13 +18,31 @@ export function handleCommunityCreated(event: CommunityCreated): void {
     let community = new Community(communityId);
     community.createdAt = event.block.timestamp;
     community.daoFund = event.params.creator;
+    community.feeRatio = 0;
+    community.distributedCToken = Zero;
+    community.revenue = Zero;
+    community.retainedRevenue = Zero;
+    community.users = [];
+    community.pools = [];
+    community.usersCount = 0;
+    community.poolsCount = 0;
+    community.activedPoolCount = 0;
+    community.operationHistory = [];
+    community.operationCount = 0;
+
     let userId = event.params.creator.toHex();
     let user = User.load(userId);
+    
     if (!user) {
         user = new User(userId);
         user.createdAt = event.block.timestamp;
         user.address = event.params.creator;
         walnut.totalUsers += 1;
+        user.inCommunities = [];
+        user.inPools = [];
+        user.inGauges = [];
+        user.operationHistory = [];
+        user.operationCount = 0;
     }
 
     // add community to user's community list
