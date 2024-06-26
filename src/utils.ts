@@ -10,6 +10,7 @@ export function getOpCount(): BigInt {
     let counter = Counter.load(OpCounterKey);
     if (!counter) {
         counter = new Counter(OpCounterKey);
+        counter.index = new BigInt(0)
     }
     counter.index = counter.index.plus(BigInt.fromU64(1));
     counter.save();
