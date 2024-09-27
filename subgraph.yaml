@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 schema:
   file: ./schema.graphql
 dataSources:
@@ -6,12 +6,12 @@ dataSources:
     name: Committee
     network: base
     source:
-      address: "0xa965a23fF72805576002a0971a38A22a0c715A86"
+      address: "0xBab99d73D20DE32D0f674dA58390b4C904654C19"
       abi: Committee
-      startBlock: 3503613
+      startBlock: 20270740
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Walnut
@@ -30,12 +30,12 @@ dataSources:
     name: Gauge
     network: base
     source:
-      address: "0xF21649D901A082772Bd7B5d5eD5039C7a43A5789"
+      address: "0x238f82F5384f0d01300F857438237F2E150305A0"
       abi: Gauge
-      startBlock: 3503613
+      startBlock: 20270740
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Community
@@ -62,12 +62,12 @@ dataSources:
     name: CommunityFactory
     network: base
     source:
-      address: "0xFe992EF5f73Ac289052F1742B918278a62686fD1"
+      address: "0x4e00a9ab92876B8F5AdB07D607aE2B8b257CF856"
       abi: CommunityFactory
-      startBlock: 3503613
+      startBlock: 20270740
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Community
@@ -83,12 +83,12 @@ dataSources:
     name: ERC20StakingFactory
     network: base
     source:
-      address: "0x5A95D35579C3aaF7F1df86540286A9DD90506F00"
+      address: "0x88505421EAA5A4542154bCcEe935f3E6afFe3BfD"
       abi: ERC20StakingFactory
-      startBlock: 3503613
+      startBlock: 20270740
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -100,35 +100,15 @@ dataSources:
           handler: handleERC20StakingCreated
       file: ./src/mappingERC20StakingFactory.ts
   - kind: ethereum/contract
-    name: TaxedERC20StakingFactory
-    network: base
-    source:
-      address: "0x9C2804015b55D02F0cBeDa1ee8a9c24Ee7aF00d7"
-      abi: TaxedERC20StakingFactory
-      startBlock: 5976605
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-      abis:
-        - name: TaxedERC20StakingFactory
-          file: ./abis/TaxedERC20StakingFactory.json
-      eventHandlers:
-        - event: "TaxedERC20StakingCreated(indexed address,indexed address,string,address)"
-          handler: handleTaxedERC20StakingCreated
-      file: ./src/mappingTaxedERC20StakingFactory.ts
-  - kind: ethereum/contract
     name: SPStakingFactory
     network: base
     source:
-      address: "0x420E3b63F2587702B0BCdc50aF948cF387515593"
+      address: "0xDFEDa0D7bddcFBB7Ba70a463fAa355A9f07c7c10"
       abi: SPStakingFactory
-      startBlock: 3503613
+      startBlock: 20270740
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -140,35 +120,15 @@ dataSources:
           handler: handleSPStakingCreated
       file: ./src/mappingSPStakingFactory.ts
   - kind: ethereum/contract
-    name: CosmosStakingFactory
-    network: base
-    source:
-      address: "0x20ABc409b7dc7a6DC8cC1309A5A7DBb5B1c0D014"
-      abi: CosmosStakingFactory
-      startBlock: 3503613
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-      abis:
-        - name: CosmosStakingFactory
-          file: ./abis/CosmosStakingFactory.json
-      eventHandlers:
-        - event: "CosmosStakingCreated(indexed address,indexed address,string,uint8,address)"
-          handler: handleCosmosStakingCreated
-      file: ./src/mappingCosmosStakingFactory.ts
-  - kind: ethereum/contract
     name: ERC1155StakingFactory
     network: base
     source:
-      address: "0x8d7F753D3b3862169d9eee500de3F7220103eAAd"
+      address: "0xd9Ee5A42C75Cc07f27Df9F4EE12D462715475A4f"
       abi: ERC1155StakingFactory
-      startBlock: 3503613
+      startBlock: 20270740
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -187,7 +147,7 @@ templates:
       abi: Community
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Community
@@ -220,7 +180,7 @@ templates:
       abi: ERC20Staking
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -235,28 +195,6 @@ templates:
         - event: Withdrawn(indexed address,indexed address,uint256)
           handler: handleWithdrawn
       file: ./src/mappingERC20Staking.ts
-  - name: TaxedERC20StakingTemplate
-    kind: ethereum/contract
-    network: base
-    source:
-      abi: TaxedERC20Staking
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-        - User
-        - UserOperationHistory
-      abis: 
-        - name: TaxedERC20Staking
-          file: ./abis/TaxedERC20Staking.json
-      eventHandlers:
-        - event: Deposited(indexed address,indexed address,uint256)
-          handler: handleDeposited
-        - event: Withdrawn(indexed address,indexed address,uint256)
-          handler: handleWithdrawn
-      file: ./src/mappingTaxedERC20Staking.ts
   - name: SPStakingTemplate
     kind: ethereum/contract
     network: base
@@ -264,7 +202,7 @@ templates:
       abi: SPStaking
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
@@ -277,26 +215,6 @@ templates:
         - event: UpdateStaking(indexed address,indexed address,uint256,uint256)
           handler: handleUpdateStaking
       file: ./src/mappingSPStaking.ts
-  - name: CosmosStakingTemplate
-    kind: ethereum/contract
-    network: base
-    source:
-      abi: CosmosStaking
-    mapping:
-      kind: ethereum/contract
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - Pool
-        - User
-        - UserOperationHistory
-      abis: 
-        - name: CosmosStaking
-          file: ./abis/CosmosStaking.json
-      eventHandlers:
-        - event: UpdateStaking(indexed address,indexed address,uint256,uint256)
-          handler: handleUpdateStaking
-      file: ./src/mappingCosmosStaking.ts
   - name: ERC1155StakingTemplate
     kind: ethereum/contract
     network: base
@@ -304,7 +222,7 @@ templates:
       abi: ERC1155Staking
     mapping:
       kind: ethereum/contract
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Pool
