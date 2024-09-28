@@ -3,8 +3,8 @@ import { ERC20StakingCreated } from '../generated/ERC20StakingFactory/ERC20Staki
 import { ERC20StakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { ERC20StakingFactory } from "./contracts"
-import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
-import { getOpCount } from './utils'
+import { BigInt, log, ByteArray, Bytes, Address } from '@graphprotocol/graph-ts';
+import { BigZero, getOpCount } from './utils'
 
 
 // event ERC20StakingCreated(
@@ -31,6 +31,23 @@ export function handleERC20StakingCreated(event: ERC20StakingCreated): void {
     let pool = Pool.load(poolId);
     if (!pool) {
         pool = new Pool(poolId);
+        pool.poolIndex = 0;
+        pool.createdAt = BigZero;
+        pool.status = '';
+        pool.name = '';
+        pool.poolFactory = Bytes.fromI32(0);
+        pool.community = '';
+        pool.ratio = 0;
+        pool.asset = Bytes.fromI32(0);
+        pool.chainId = 0;
+        pool.totalAmount = BigZero;
+        pool.tvl = BigZero;
+        pool.stakers = [];
+        pool.stakersCount = 0;
+        pool.hasCreateGauge = 0;
+        pool.voters = [];
+        pool.votersCount = 0;
+        pool.votedAmount = BigZero;
     }
     pool.createdAt = event.block.timestamp;
     pool.status = 'OPENED';

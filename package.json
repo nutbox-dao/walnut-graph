@@ -4,6 +4,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
+    "prepare": "graph codegen & graph build",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ terryyyyyyy/walnutingoerli",
     "deploy-goerli": "graph deploy --product hosted-service terryyyyyy/walnutingoerli",
     "deploy-bsct": "graph deploy --product hosted-service terryyyyyy/walnutinbsct",

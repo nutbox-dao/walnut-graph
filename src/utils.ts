@@ -6,10 +6,13 @@ export function formatOddString(s: string): string {
     return s.length % 2 === 0 ? s : '0' + s;
 }
 
+export const BigZero = BigInt.fromI32(0);
+
 export function getOpCount(): BigInt {
     let counter = Counter.load(OpCounterKey);
     if (!counter) {
         counter = new Counter(OpCounterKey);
+        counter.index = BigZero;
     }
     counter.index = counter.index.plus(BigInt.fromU64(1));
     counter.save();

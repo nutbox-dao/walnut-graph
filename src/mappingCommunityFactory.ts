@@ -2,8 +2,9 @@ import { CommunityTemplate } from '../generated/templates'
 import { Community, User, UserOperationHistory } from '../generated/schema'
 import { CommunityCreated } from '../generated/CommunityFactory/CommunityFactory'
 import { getWalnut } from './mappingCommittee'
-import { log } from '@graphprotocol/graph-ts'
-import { getOpCount } from './utils'
+import { Bytes, log } from '@graphprotocol/graph-ts'
+import { getOpCount, BigZero } from './utils'
+import { BigInt, Address } from '@graphprotocol/graph-ts'
 
 export function handleCommunityCreated(event: CommunityCreated): void {
     let walnut = getWalnut();
@@ -17,12 +18,29 @@ export function handleCommunityCreated(event: CommunityCreated): void {
     let community = new Community(communityId);
     community.createdAt = event.block.timestamp;
     community.daoFund = event.params.creator;
+    community.feeRatio = 0;
+    community.treasury = event.params.creator;
+    community.distributedCToken = BigZero;
+    community.revenue = BigZero;
+    community.retainedRevenue = BigZero;
+    community.pools = [];
+    community.poolsCount = 0;
+    community.activedPoolCount = 0;
+    community.operationCount = 0;
+    community.operationHistory = [];
+    community.users = [];
+
     let userId = event.params.creator.toHex();
     let user = User.load(userId);
     if (!user) {
         user = new User(userId);
         user.createdAt = event.block.timestamp;
         user.address = event.params.creator;
+        user.inCommunities = [];
+        user.inPools = [];
+        user.inGauges = [];
+        user.operationHistory = [];
+        user.operationCount = 0;
         walnut.totalUsers += 1;
     }
 

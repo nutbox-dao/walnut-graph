@@ -157,6 +157,11 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
         user = new User(ownerId);
         user.createdAt = event.block.timestamp;
         user.address = event.params.newOwner;
+        user.inCommunities = [];
+        user.inPools = [];
+        user.inGauges = [];
+        user.operationHistory = [];
+        user.operationCount = 0;
         walnut.totalUsers += 1;
         walnut.save();
     }

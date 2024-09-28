@@ -4,7 +4,7 @@ import { ERC1155StakingTemplate } from '../generated/templates'
 import { getWalnut } from './mappingCommittee';
 import { ERC1155StakingFactory } from "./contracts"
 import { BigInt, log, ByteArray, Bytes } from '@graphprotocol/graph-ts';
-import { formatOddString, getOpCount } from './utils'
+import { BigZero, formatOddString, getOpCount } from './utils'
 
 // event ERC1155StakingCreated(
 //     address indexed pool,
@@ -32,6 +32,23 @@ export function handleERC1155StakingCreated(event: ERC1155StakingCreated): void 
     let pool = Pool.load(poolId);
     if (!pool) {
         pool = new Pool(poolId);
+        pool.poolIndex = 0;
+        pool.createdAt = BigZero;
+        pool.status = '';
+        pool.name = '';
+        pool.poolFactory = Bytes.fromI32(0);
+        pool.community = '';
+        pool.ratio = 0;
+        pool.asset = Bytes.fromI32(0);
+        pool.chainId = 0;
+        pool.totalAmount = BigZero;
+        pool.tvl = BigZero;
+        pool.stakers = [];
+        pool.stakersCount = 0;
+        pool.hasCreateGauge = 0;
+        pool.voters = [];
+        pool.votersCount = 0;
+        pool.votedAmount = BigZero;
     }
     pool.createdAt = event.block.timestamp;
     pool.status = 'OPENED';
